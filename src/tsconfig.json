@@ -1,0 +1,54 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@abp/*": [
+        "../node_modules/abp-ng2-module/dist/src/*"
+      ],
+      "@app/*": [
+        "./app/*"
+      ],
+      "@account/*": [
+        "./account/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@node_modules/*": [
+        "../node_modules/*"
+      ],
+      "@angular/*": [
+        "../node_modules/@angular/*"
+      ],
+      "@env": [
+        "environments"
+      ],
+      "@env/*": [
+        "environments/*"
+      ],
+    },
+    "typeRoots": [
+      "../node_modules/@types",
+      "./typings.d.ts"
+    ],
+    "allowSyntheticDefaultImports": true
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
+}

@@ -1,0 +1,51 @@
+<ng-container *ngIf="active">
+  <nz-modal [nzVisible]="active" [nzTitle]="options.title" (nzOnOk)="refreshTable()" (nzOnCancel)="close()">
+
+
+    <form (ngSubmit)="refreshTable()" autocomplete="off" novalidate>
+      <div *ngIf="options.isFilterEnabled" class="input-group mb-4">
+
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input type="text" nz-input [(ngModel)]="filterText" class="form-control" name="filterText" />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" nzSearch type="submit"><i nz-icon nzType="search"></i></button>
+        </ng-template>
+      </div>
+    </form>
+    <st [columns]="columns" [data]="dataList">
+
+    </st>
+    <!-- <p-table #dataTable (onLazyLoad)="getRecordsIfNeeds($event)" [lazy]="true" [paginator]="false"
+      [responsive]="primengTableHelper.isResponsive" [value]="primengTableHelper.records"
+      rows="{{ primengTableHelper.defaultRecordsCountPerPage }}">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:15%">
+            {{ "Select" | localize }}
+          </th>
+          <th>
+            {{ "Name" | localize }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template let-record="$implicit" pTemplate="body">
+        <tr>
+          <td>
+            <button (click)="selectItem(record)" class="btn btn-outline-primary btn-sm btn-icon"
+              title="{{ 'Select' | localize }}">
+              <i [attr.aria-label]="l('Select')" class="la la-chevron-circle-right"></i>
+            </button>
+          </td>
+          <td>
+            <span class="ui-column-title">{{ "Name" | localize }}</span>
+            {{ record.name }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table> -->
+
+
+
+  </nz-modal>
+</ng-container>

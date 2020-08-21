@@ -1,0 +1,35 @@
+<!-- <nz-card [nzTitle]="l('EmailActivation')"> -->
+
+<div [@routerTransition] class="kt-login__form" style="display: flex;justify-content: center;">
+  <div class="kt-login__title" style="width: 400px;">
+    <h3 style="text-align: center;">
+      {{ "EmailActivation" | localize }}
+    </h3>
+
+    <form #emailActivationForm="ngForm" (ngSubmit)="save()" class="kt-form" method="post" novalidate>
+      <p style="text-align: center;">
+        {{ "SendEmailActivationLink_Information" | localize }}
+      </p>
+
+      <div class="form-group">
+        <input nz-input #emailAddressInput="ngModel" [(ngModel)]="model.emailAddress" autocomplete="off"
+          class="form-control form-control-solid placeholder-no-fix input-ltr" email maxlength="256" name="emailAddress"
+          placeholder="{{ 'EmailAddress' | localize }} *" required type="email" />
+        <validation-messages [formCtrl]="emailAddressInput"></validation-messages>
+      </div>
+
+      <div class="kt-login__actions" style="display: flex;justify-content: space-between;margin-top: 50px;">
+        <button [disabled]="saving" nz-button class="btn btn-light btn-elevate kt-login__btn-secondary"
+          routerLink="/account/login" type="button">
+          <i class="fa fa-arrow-left"></i> {{ "Back" | localize }}
+        </button>
+        <button nz-button [nzLoading]="saving" [disabled]="!emailActivationForm.form.valid"
+          class="btn btn-primary btn-elevate kt-login__btn-primary" type="submit">
+          <i class="fa fa-check"></i> {{ "Submit" | localize }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- </nz-card> -->

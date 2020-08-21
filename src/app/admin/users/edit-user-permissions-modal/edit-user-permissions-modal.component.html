@@ -1,0 +1,22 @@
+<nz-modal [nzVisible]="visible" [nzTitle]="'编辑权限'" (nzOnOk)="submit()" (nzOnCancel)="close()" [nzFooter]="tplFooter"
+  [scrollbar]="true">
+  <nz-alert nzType="warning" [nzMessage]="l('Note_RefreshPageForPermissionChanges')" nzShowIcon></nz-alert>
+
+
+  <nz-tree-select #treeSelect style="width: 100%; margin-top: 20px;" [(ngModel)]="value" [nzNodes]="nodes" nzShowSearch
+    nzCheckable [nzDefaultExpandAll]="true" [nzPlaceHolder]="l('SelectPermissions')">
+    <!-- <ng-template #nzTreeTemplate let-node>
+      <span class="ant-tree-node-content-wrapper" [class.ant-tree-node-selected]="node.isSelected">
+        <span> <i nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'"></i> {{ node.title }} </span>
+      </span>
+    </ng-template> -->
+  </nz-tree-select>
+  <ng-template #tplFooter>
+    <button nz-button nzType="primary" (click)="resetPermissions()" [nzLoading]="saving">
+      {{l('ResetSpecialPermissions')}}
+    </button>
+    <button nz-button (click)="close()">{{l('Cancel')}}</button>
+    <button nz-button (click)="submit()">{{l('Save')}}</button>
+  </ng-template>
+
+</nz-modal>

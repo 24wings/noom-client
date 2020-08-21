@@ -1,0 +1,22 @@
+<nz-modal [nzTitle]="'新增社区'" [nzVisible]="active" [nzWidth]="600" [nzOkDisabled]="!canSubmit" (nzOnOk)="save()"
+          (nzOnCancel)="active=false">
+  <div *ngIf="active" autocomplete="off" novalidate>
+    <nz-form-item>
+
+      <nz-form-label nzRequired>{{ "取货点名称" | localize }}</nz-form-label>
+      <nz-form-control>
+        <input nz-input #roleNameInput="ngModel" [(ngModel)]="pickup.pickup_name" class="form-control"
+               id="RoleDisplayName" maxlength="64" name="DisplayName" required type="text" />
+        <validation-messages [formCtrl]="roleNameInput"></validation-messages>
+      </nz-form-control>
+    </nz-form-item>
+    <!-- <nz-form-item>
+      <nz-form-label nzRequired>{{"是否启用"|localize}}</nz-form-label>
+      <nz-form-control>
+        <nz-switch [(ngModel)]="topic.is_open"></nz-switch>
+      </nz-form-control>
+
+    </nz-form-item> -->
+
+  </div>
+</nz-modal>

@@ -1,0 +1,92 @@
+<!--suppress TypeScriptUnresolvedVariable -->
+<div nz-row>
+    <div nz-col nzSpan="18">
+        <nz-input-group [nzAddOnAfter]="suffixIconButton" nzSearch>
+            <input type="text" nz-input [placeholder]="l('Search')" />
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" (click)="getOrganizationUnitUsers()" nzSearch><i nz-icon
+                        nzType="search"></i></button>
+            </ng-template>
+        </nz-input-group>
+
+
+    </div>
+    <div nz-col nzSpan="6">
+        <!-- Todo: -->
+        <a nz-button nzType="link"
+            *ngIf="('Pages.Administration.OrganizationUnits.ManageMembers' | permission) && organizationUnit"
+            (click)="addMemberModal.shown()"><i nz-icon nzType="plus"></i>{{l('AddMember')}}</a>
+        <a nz-button nzType="link" (click)="removeMemberBat()"> <i nz-icon nzType="delete"></i> {{l('Remove')}} </a>
+    </div>
+</div>
+<div nz-row>
+    <nz-alert style="width: 100%;padding-top:20px;padding-bottom: 20px;" nzType="info"
+        [nzMessage]="'已选择'+getSelectedItems()+'条'" nzShowIcon>
+    </nz-alert>
+    <!-- <div class="col-12"> -->
+    <st style="width: 100%;" [widthMode]="'default'" [data]="dataList" [columns]="columns" [loading]="loading"
+        [page]="{pageNumber:pageNumber,show:show,totalItems:totalItems,totalPages:totalPages}"></st>
+    <!-- <div id="OuMembersTable"> -->
+
+    <!--<Primeng-TurboTable-Start>-->
+    <!-- <div [hidden]="!organizationUnit" class="primeng-datatable-container"> -->
+    <!-- <p-table #dataTable (onLazyLoad)="getOrganizationUnitUsers($event)" [lazy]="true" [paginator]="false"
+                    [responsive]="primengTableHelper.isResponsive" [value]="primengTableHelper.records"
+                    rows="{{ primengTableHelper.defaultRecordsCountPerPage }}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th [hidden]="!('Pages.Administration.OrganizationUnits.ManageMembers' | permission)"
+                                style="width: 15%">{{ "Delete" | localize }}</th>
+                            <th pSortableColumn="userName">
+                                {{ "UserName" | localize }}
+                                <!-- <p-sortIcon field="userName"></p-sortIcon> --
+                            </th>
+                            <th pSortableColumn="addedTime">
+                                {{ "AddedTime" | localize }}
+                                <!-- <p-sortIcon field="addedTime"></p-sortIcon> --
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template let-record="$implicit" pTemplate="body">
+                        <tr>
+                            <td [hidden]="!('Pages.Administration.OrganizationUnits.ManageMembers' | permission)">
+                                <button (click)="removeMember(record)" class="btn btn-outline-danger btn-icon"
+                                    title="{{ 'Delete' | localize }}">
+                                    <i [attr.aria-label]="l('Delete')" class="fa fa-times"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <span class="ui-column-title">{{ "UserName" | localize }}</span>
+                                {{ record.userName }}
+                            </td>
+                            <td>
+                                <span class="ui-column-title">{{ "AddedTime" | localize }}</span>
+                                {{ record.addedTime | momentFormat: "L" }}
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table> -->
+    <!-- <div *ngIf="data.length == 0" class="primeng-no-data">
+                    {{ l("NoData")  }}
+                </div>
+                <div class="primeng-paging-container">
+                    <!-- <p-paginator #paginator (onPageChange)="getOrganizationUnitUsers($event)"
+                        [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                        [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                        [totalRecords]="primengTableHelper.totalRecordsCount">
+                    </p-paginator> --
+                    <span class="total-records-count">
+                        {{ l("TotalRecordsCount") }}
+                    </span>
+                </div>
+            </div> -->
+    <!--<Primeng-TurboTable-End>-->
+    <!-- </div> -->
+    <!-- </div> -->
+</div>
+
+<div *ngIf="!organizationUnit" class="text-muted">
+    {{ "SelectAnOrganizationUnitToSeeMembers" | localize }}
+</div>
+
+<addMemberModal #addMemberModal (membersAdded)="addMembers($event)"></addMemberModal>

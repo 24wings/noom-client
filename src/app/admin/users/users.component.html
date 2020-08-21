@@ -1,0 +1,54 @@
+<page-header-wrapper [title]="l('Users')">
+
+
+
+
+  <nz-card>
+
+    <!-- <ng-template #extraTpl>
+      <button nz-button (click)="refresh()" nzShape="circle" nzType="primary">
+        <i nz-icon nzType="reload" nzTheme="outline"></i>
+      </button>
+      <button nz-button (click)="create()" nzShape="circle" nzType="primary">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+      </button>
+    </ng-template> -->
+
+
+    <div nz-form>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixIconButton">
+            <input type="text" nz-input [placeholder]="l('Search')" />
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" (click)="getUsers()" nzSize="large" nzSearch><i nz-icon
+                 nzType="search"></i></button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-col nzMd="20" nzSm="12">
+        <button nz-button nzType="primary" (click)="create()"> <i nz-icon nzType="plus" nzTheme="outline"></i>
+          {{l("CreateNewUser")}}</button>
+      </div>
+
+      <div nz-row>
+
+        <nz-form-item nz-row nz-col nzSpan="">
+
+        </nz-form-item>
+      </div>
+
+    </div>
+
+
+    <st [columns]="columns" [data]="dataList" [loading]="loading"
+        [page]="{pageNumber:pageNumber,show:show,totalItems:totalItems,totalPages:totalPages}"></st>
+
+  </nz-card>
+
+
+
+  <app-edit-user-permissions-modal #editUserPermissionsModal (modalSave)="getUsers()">
+  </app-edit-user-permissions-modal>
+</page-header-wrapper>

@@ -1,0 +1,118 @@
+<!-- <button (click)="setLang('zh-Hans')">zh</button> <button (click)="setLang('en')">en</button> -->
+<form #loginForm="ngForm" (ngSubmit)="login()" class="kt-form" method="post" novalidate>
+  <nz-tabset [nzAnimated]="false" class="tabs">
+    <nz-tab [nzTitle]=" l('LogIn') ">
+      <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="'Please enter mobile number!' ">
+          <nz-input-group nzSize="large" nzPrefixIcon="user">
+            <input #userNameOrEmailAddressInput="ngModel" nz-input name="userNameOrEmailAddress"
+                   [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress"
+                   [placeholder]="l('UserNameOrEmail')"
+                   required />
+            <validation-messages *ngIf="!userNameOrEmailAddressInput.touched" [formCtrl]="userNameOrEmailAddressInput">
+            </validation-messages>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control nzErrorTip="'Please enter password!' ">
+          <nz-input-group nzSize="large" nzPrefixIcon="lock">
+            <input nz-input #passwordInput="ngModel" type="password" name="password"
+                   [(ngModel)]="loginService.authenticateModel.password" autocomplete="off"
+                   [placeholder]="l('Password')"
+                   required />
+            <validation-messages *ngIf="!passwordInput.touched" [formCtrl]="passwordInput"></validation-messages>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-tab>
+    <!-- <nz-tab [nzTitle]="'手机登录' " [nzDisabled]="true"> -->
+    <!-- <nz-form-item>
+        <nz-form-control [nzErrorTip]="mobileErrorTip">
+          <nz-input-group nzSize="large" nzPrefixIcon="user">
+            <input nz-input formControlName="mobile" placeholder="mobile number" />
+          </nz-input-group>
+          <ng-template #mobileErrorTip let-i>
+            <ng-container *ngIf="i.errors.required">
+              {{ 'validation.phone-number.required'  }}
+            </ng-container>
+            <ng-container *ngIf="i.errors.pattern">
+              {{ 'validation.phone-number.wrong-format'  }}
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzErrorTip]="'validation.verification-code.required' ">
+          <nz-row [nzGutter]="8">
+            <nz-col [nzSpan]="16">
+              <nz-input-group nzSize="large" nzPrefixIcon="mail">
+                <input nz-input formControlName="captcha" placeholder="captcha" />
+              </nz-input-group>
+            </nz-col>
+            <nz-col [nzSpan]="8">
+              <button type="button" nz-button nzSize="large" (click)="getCaptcha()" [disabled]="count" nzBlock
+                      [nzLoading]="http.loading">
+                {{ count ? count + 's' : ('app.register.get-verification-code' ) }}
+              </button>
+            </nz-col>
+          </nz-row>
+        </nz-form-control>
+      </nz-form-item> -->
+    <!-- </nz-tab> -->
+  </nz-tabset>
+  <nz-form-item>
+    <nz-col [nzSpan]="12">
+      <label nz-checkbox [(ngModel)]="loginService.rememberMe" class="form-control" name="rememberMe">
+        {{ l('RememberMe')  }}</label>
+    </nz-col>
+
+    <!-- <p *ngIf="useCaptcha" class="mt-2 form-text text-muted">
+      {{ "Captcha_Hint" | localize }}
+    </p> -->
+
+    <!-- <div *ngIf="useCaptcha" class="form-group mt-2 captcha-container">
+      <re-captcha #recaptchaRef (resolved)="captchaResolved($event)" [siteKey]="recaptchaSiteKey"></re-captcha>
+    </div> -->
+
+    <nz-col [nzSpan]="12" class="text-right">
+      <a class="forgot" routerLink="/account/forgot-password">{{ l('ForgotPassword')  }}</a>
+    </nz-col>
+  </nz-form-item>
+  <nz-form-item>
+    <button nz-button [disabled]="!loginForm.form.valid" type="submit" nzType="primary" nzSize="large" nzBlock>
+      {{ l('LogIn')  }}
+    </button>
+  </nz-form-item>
+</form>
+
+<nz-divider [nzText]="l('LoginWith')"></nz-divider>
+
+<!-- <div *ngIf="(multiTenancySideIsTenant || !isMultiTenancyEnabled) && loginService.externalLoginProviders.length>0">
+  <a (click)="externalLogin(provider)" *ngFor="let provider of loginService.externalLoginProviders"
+    title="{{provider.name}}"><i></i>{{provider.name}}</a>
+</div> -->
+
+<div class="body text-center">
+  <span *ngIf="isSelfRegistrationAllowed">
+    <a routerLink="/account/register">{{l('CreateAnAccount')}}</a>
+    <span> | </span>
+  </span>
+  <span *ngIf="!multiTenancySideIsTenant && isTenantSelfRegistrationAllowed">
+    <a routerLink="/account/select-edition">{{l("NewTenant")}}</a>
+    <span> | </span>
+  </span>
+  <a routerLink="/account/email-activation">{{l("EmailActivation")}}</a>
+</div>
+
+<!-- 
+<div class="other">
+  {{ 'app.login.sign-in-with'  }}
+  <i nz-tooltip nzTooltipTitle="in fact Auth0 via window" (click)="open('auth0', 'window')" nz-icon
+     nzType="alipay-circle" class="icon"></i>
+  <i nz-tooltip nzTooltipTitle="in fact Github via redirect" (click)="open('github')" nz-icon nzType="taobao-circle"
+     class="icon"></i>
+  <i (click)="open('weibo', 'window')" nz-icon nzType="weibo-circle" class="icon"></i>
+  <a class="register" routerLink="/passport/register">{{ 'app.login.signup'  }}</a>
+</div> -->

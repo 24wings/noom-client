@@ -1,0 +1,35 @@
+<ng-container *ngIf="active">
+  <nz-modal [nzVisible]="active" (nzOnOk)="save()" [nzOkDisabled]="editForm?false:(editForm?.form.valid)"
+            (nzOnCancel)="close()">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form #editForm="ngForm" (ngSubmit)="save()" novalidate>
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <span *ngIf="organizationUnit.id">{{ "Edit" | localize }}:
+                {{ organizationUnit.displayName }}</span>
+              <span *ngIf="!organizationUnit.id">{{ "NewOrganizationUnit" | localize }}</span>
+            </h5>
+
+          </div>
+
+          <div class="modal-body">
+            <nz-form-item>
+              <nz-form-label for="OrganizationUnitDisplayName" nzRequired>{{ "Name" | localize }} </nz-form-label>
+              <nz-form-control>
+                <input nz-input #organizationUnitDisplayName="ngModel"
+                       [(ngModel)]="organizationUnit.displayName"
+                       [ngClass]="{ edited: organizationUnit.displayName }" class="form-control"
+                       id="OrganizationUnitDisplayName" maxlength="128" name="displayName" required
+                       type="text" />
+                <validation-messages [formCtrl]="organizationUnitDisplayName"></validation-messages>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+
+
+        </form>
+      </div>
+    </div>
+  </nz-modal>
+</ng-container>

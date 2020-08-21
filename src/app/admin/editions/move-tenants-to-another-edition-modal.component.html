@@ -1,0 +1,37 @@
+<nz-modal [nzVisible]="active" (nzOnOk)="save()" (nzOnCancel)="close()" [nzOkDisabled]="saving"
+  [nzCancelDisabled]="saving">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form #MoveTenantsForm="ngForm" (ngSubmit)="save()" *ngIf="active" novalidate>
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <span>{{ "MoveTenantsOfEdition" | localize }}</span>
+          </h5>
+          <button (click)="close()" [attr.aria-label]="l('Close')" class="close" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <a [href]="appBaseUrl + '/app/admin/tenants?editionId=' + moveTenantsInput.sourceEditionId"
+              [queryParams]="{ editionId: moveTenantsInput.sourceEditionId }" [routerLink]="['/app/admin/tenants']"
+              target="_blank">
+              {{ "MoveTenantsOfEditionDescription" | localize: tenantCount }}
+            </a>
+          </div>
+          <div class="form-group">
+            <label>{{ "Edition" | localize }}</label>
+            <nz-select [(ngModel)]="moveTenantsInput.targetEditionId" class="form-control" name="expiringEdition"
+              style="width: 250px" required>
+              <nz-option value="" [nzLabel]=" l('Select') "></nz-option>
+              <nz-option *ngFor="let targetEdition of targetEditions" [nzValue]="targetEdition.value"
+                [nzLabel]="targetEdition.displayText">
+              </nz-option>
+            </nz-select>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</nz-modal>

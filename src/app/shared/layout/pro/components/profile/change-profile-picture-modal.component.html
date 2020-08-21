@@ -1,0 +1,34 @@
+<nz-modal [nzVisible]="active">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form #changeProfilePictureModalForm="ngForm" (ngSubmit)="save()" *ngIf="active">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <span>{{ "ChangeProfilePicture" | localize }}</span>
+          </h5>
+          <button (click)="close()" [attr.aria-label]="l('Close')" class="close" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input (change)="fileChangeEvent($event)" type="file" />
+            <span
+              class="help-block m-b-none">{{ "ProfilePicture_Change_Info" | localize: maxProfilePictureBytesUserFriendlyValue }}</span>
+          </div>
+          <!-- <image-cropper (imageCroppedFile)="imageCroppedFile($event)" [aspectRatio]="4 / 4"
+            [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [resizeToWidth]="128" format="png">
+          </image-cropper> -->
+        </div>
+        <div class="modal-footer">
+          <button (click)="close()" [disabled]="saving" class="btn btn-secondary"
+            type="button">{{ "Cancel" | localize }}</button>
+          <button [disabled]="!changeProfilePictureModalForm.form.valid || saving" class="btn btn-primary"
+            type="submit">
+            <i class="fa fa-save"></i> <span>{{ "Save" | localize }}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</nz-modal>

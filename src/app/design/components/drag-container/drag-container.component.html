@@ -1,0 +1,8 @@
+<div [class.active]="isActive" (click)="isActive=!isActive">
+  <button nz-button *ngIf="isActive" (click)="showEditConfigModal($event)">编辑</button>
+  <ng-template dynamic></ng-template>
+
+
+
+</div>
+<config-modal (onSave)="componentRef.instance.config =$event;log()"></config-modal>

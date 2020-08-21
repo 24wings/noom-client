@@ -1,0 +1,55 @@
+<nz-modal [nzVisible]="active" [nzFooter]="tplFooter" (nzOnCancel)="close()">
+
+  <form class="form-horizontal" id="loginAttemptsModalForm">
+    <div class="form-body">
+      <div nz-row>
+        <div *ngFor="let userLoginAttempt of userLoginAttempts" class="col-sm-12">
+          <nz-card>
+            <div [ngClass]="userLoginAttempt.result == 'Success' ? 'alert-outline-success' : 'alert-outline-danger'"
+              class="alert" role="alert">
+              <div class="alert__text">
+                <div *ngIf="userLoginAttempt.clientIpAddress" nz-row>
+                  <label nz-col nzSpan="6" class="kt-font-bolder col-sm-3 text-right">{{ l("IpAddress") }}</label>
+                  <div nz-col nzSpan="18">
+                    <p class="form-control-static">
+                      {{ userLoginAttempt.clientIpAddress }}
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="userLoginAttempt.clientName" nz-row>
+                  <label nz-col nzSpan="6" class="kt-font-bolder col-sm-3 text-right">{{ l("Client") }}</label>
+                  <div nz-col nzSpan="18">
+                    <p class="form-control-static">
+                      {{ userLoginAttempt.clientName }}
+                    </p>
+                  </div>
+                </div>
+
+                <div *ngIf="userLoginAttempt.browserInfo" nz-row>
+                  <label nz-col nzSpan="6" class="kt-font-bolder col-sm-3 text-right">{{ l("Browser") }}</label>
+                  <div nz-col nzSpan="18">
+                    <p class="form-control-static">
+                      {{ userLoginAttempt.browserInfo }}
+                    </p>
+                  </div>
+                </div>
+
+                <div nz-row>
+                  <label nz-col nzSpan="6" class="kt-font-bolder col-sm-3 text-right">{{ l("Time") }}</label>
+                  <div nz-col nzSpan="18">
+                    <p class="form-control-static login-attempt-date">
+                      {{ getLoginAttemptTime(userLoginAttempt) }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nz-card>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <ng-template #tplFooter></ng-template>
+</nz-modal>

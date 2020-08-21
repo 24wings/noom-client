@@ -1,0 +1,34 @@
+<div nz-dropdown [nzDropdownMenu]="userMenu" nzPlacement="bottomRight" class="alain-pro__header-item">
+  <nz-avatar [nzSrc]="settings.user.avatar" nzSize="small" class="mr-sm"></nz-avatar>
+  {{ settings.user.name }}
+</div>
+<nz-dropdown-menu #userMenu="nzDropdownMenu">
+  <div nz-menu class="width-sm">
+    <div nz-menu-item (click)="linkedAccountsModal.shown()">
+      <i nz-icon nzType="user" class="mr-sm"></i>
+      {{ l('LinkedAccounts')  }}
+    </div>
+    <div nz-menu-item (click)="changePasswordModal.show()">
+      <i nz-icon nzType="user" class="mr-sm"></i>
+      {{ l('ChangePassword')  }}
+    </div>
+    <div nz-menu-item (click)="loginAttemptsModal.show()">
+      <i nz-icon nzType="setting" class="mr-sm"></i>
+      {{ l('LoginAttempts')  }}
+    </div>
+    <div nz-menu-item (click)="mySettingsModal.show()">
+      <i nz-icon nzType="close-circle" class="mr-sm"></i>
+      {{ l('MySettings')  }}
+    </div>
+    <li nz-menu-divider></li>
+    <div nz-menu-item (click)="logout()">
+      <i nz-icon nzType="logout" class="mr-sm"></i>
+      {{ l('Logout') }}
+    </div>
+  </div>
+</nz-dropdown-menu>
+
+<changePasswordModal #changePasswordModal></changePasswordModal>
+<loginAttemptsModal #loginAttemptsModal></loginAttemptsModal>
+<mySettingsModal #mySettingsModal (onSave)="onMySettingsModalSaved()"></mySettingsModal>
+<linkedAccountsModal #linkedAccountsModal></linkedAccountsModal>

@@ -1,0 +1,32 @@
+<ng-container *ngIf="active">
+  <nz-modal [nzVisible]="active" [nzTitle]="l('EditText')" [nzOkText]="l('Save')"
+    [nzOkDisabled]="editForm?!editForm.form.valid:true" (nzOnCancel)="close()" (nzOnOk)="save()">
+
+    <form #editForm="ngForm" nz-form nzLayout="vertical" (ngSubmit)="save()" novalidate>
+      <nz-form-item>
+        <nz-form-label>{{ "Key" | localize }}</nz-form-label>
+        <nz-form-control>
+          <strong>{{ model.key }}</strong>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="form-group form-md-line-input form-md-floating-label no-hint">
+        <nz-form-label for="BaseLanguageDisplayName"><i class="{{ baseLanguage.icon }}"></i>
+          {{ baseLanguage.displayName }}
+        </nz-form-label>
+        <nz-form-control>
+          <textarea nz-input [ngModel]="baseText" class="form-control edited" id="BaseLanguageDisplayName"
+            name="baseText" readonly rows="4"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label for="TargetLanguageDisplayName"><i class="{{ targetLanguage.icon }}"></i>
+          {{ targetLanguage.displayName }} </nz-form-label>
+        <nz-form-control>
+          <textarea nz-input #targetValueInput [(ngModel)]="model.value" [ngClass]="{ edited: model.value }"
+            class="form-control" id="TargetLanguageDisplayName" name="value" rows="4"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+  </nz-modal>
+</ng-container>

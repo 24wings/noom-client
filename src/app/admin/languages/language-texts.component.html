@@ -1,0 +1,235 @@
+<page-header-wrapper [title]="l('LanguageTextsHeaderInfo')">
+
+  <nz-card>
+    <form autocomplete="off" class="kt-form" id="TextsFilterForm">
+      <div class="row align-items-center m--margin-bottom-10" nz-row
+        [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label for="TextBaseLanguageSelectionCombobox">{{ "BaseLanguage" | localize }}</nz-form-label>
+            <nz-form-control>
+              <nz-select #baseLanguageNameCombobox [(ngModel)]="baseLanguageName" class="form-control bs-select"
+                id="TextBaseLanguageSelectionCombobox" name="baseLanguageName">
+                <nz-option *ngFor="let language of languages" [attr.data-icon]="language.icon" [nzValue]="language.name"
+                  [nzLabel]="language.displayName">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label for="TextTargetLanguageSelectionCombobox">{{ "TargetLanguage" | localize }}</nz-form-label>
+            <nz-form-control>
+              <nz-select #targetLanguageNameCombobox [(ngModel)]="targetLanguageName" class="form-control bs-select"
+                id="TextTargetLanguageSelectionCombobox" name="targetLanguageName">
+                <nz-option *ngFor="let language of languages" [attr.data-icon]="language.icon" [nzValue]="language.name"
+                  [nzLabel]="language.displayName"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label for="TextSourceSelectionCombobox">{{ "Source" | localize }}</nz-form-label>
+            <nz-form-control>
+              <nz-select #sourceNameCombobox [(ngModel)]="sourceName" class="form-control bs-select"
+                id="TextSourceSelectionCombobox" name="sourceName">
+                <nz-option *ngFor="let sourceName of sourceNames" [nzValue]="sourceName" [nzLabel]=" sourceName">
+                </nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label for="TargetValueFilterSelectionCombobox">{{ "TargetValue" | localize }}</nz-form-label>
+            <nz-form-control>
+              <nz-select #targetValueFilterCombobox [(ngModel)]="targetValueFilter" class="form-control bs-select"
+                id="TargetValueFilterSelectionCombobox" name="targetValueFilter">
+                <nz-option [nzValue]="'ALL'" [nzLabel]="l('All')"></nz-option>
+                <nz-option [nzValue]="'EMPTY'" nzLabel="{{ 'EmptyOnes' | localize }}"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div nz-col [nzSpan]="24">
+
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input [(ngModel)]="filterText" name="filterText" type="text" nz-input
+            placeholder="{{ 'SearchWithThreeDot' | localize }}" />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" (click)="applyFilters()" nzSearch><i nz-icon nzType="search"></i></button>
+        </ng-template>
+      </div>
+
+    </form>
+
+    <div style="margin-top: 20px;">
+      <st [data]="dataList" [columns]="columns" (change)="pageChange($event)" [loading]="loading"
+        [page]="{pageNumber:pageNumber,show:show,totalItems:true,front:false}" [total]="totalItems"></st>
+    </div>
+  </nz-card>
+</page-header-wrapper>
+
+<!--suppress TypeScriptUnresolvedVariable -->
+<!-- <div [@routerTransition]>
+  <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+    <div class="kt-subheader kt-grid__item">
+      <div>
+        <div class="kt-subheader__main">
+          <h3 class="kt-subheader__title">
+            <span>{{ "LanguageTexts" | localize }}</span>
+          </h3>
+          <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+          <span class="kt-subheader__desc">
+            {{ "LanguageTextsHeaderInfo" | localize }}
+          </span>
+        </div>
+      </div>
+    </div> -->
+
+<!-- <div [class]=" ' kt-grid__item kt-grid__item--fluid'">
+      <div class="kt-portlet">
+        <div class="kt-portlet__body">
+          <form autocomplete="off" class="kt-form" id="TextsFilterForm">
+            <div>
+              <div class="row align-items-center m--margin-bottom-10">
+                <div class="col-sm-6 col-md-3">
+                  <div class="form-group">
+                    <label for="TextBaseLanguageSelectionCombobox">{{ "BaseLanguage" | localize }}</label>
+                    <select #baseLanguageNameCombobox [(ngModel)]="baseLanguageName" class="form-control bs-select"
+                      id="TextBaseLanguageSelectionCombobox" name="baseLanguageName">
+                      <option *ngFor="let language of languages" [attr.data-icon]="language.icon"
+                        [value]="language.name">{{ language.displayName }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="form-group">
+                    <label for="TextTargetLanguageSelectionCombobox">{{ "TargetLanguage" | localize }}</label>
+                    <select #targetLanguageNameCombobox [(ngModel)]="targetLanguageName" class="form-control bs-select"
+                      id="TextTargetLanguageSelectionCombobox" name="targetLanguageName">
+                      <option *ngFor="let language of languages" [attr.data-icon]="language.icon"
+                        [value]="language.name">{{ language.displayName }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="form-group">
+                    <label for="TextSourceSelectionCombobox">{{ "Source" | localize }}</label>
+                    <select #sourceNameCombobox [(ngModel)]="sourceName" class="form-control bs-select"
+                      id="TextSourceSelectionCombobox" name="sourceName">
+                      <option *ngFor="let sourceName of sourceNames" [value]="sourceName"> {{ sourceName }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                  <div class="form-group">
+                    <label for="TargetValueFilterSelectionCombobox">{{ "TargetValue" | localize }}</label>
+                    <select #targetValueFilterCombobox [(ngModel)]="targetValueFilter" class="form-control bs-select"
+                      id="TargetValueFilterSelectionCombobox" name="targetValueFilter">
+                      <option value="ALL">{{ "All" | localize }}</option>
+                      <option value="EMPTY">{{ "EmptyOnes" | localize }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row align-items-center mb-4">
+                <div class="col-sm-12">
+                  <div class="input-group">
+                    <input [(ngModel)]="filterText" autoFocus class="form-control" name="filterText"
+                      placeholder="{{ 'SearchWithThreeDot' | localize }}" type="text" />
+                    <span class="input-group-btn">
+                      <button (click)="applyFilters()" class="btn btn-primary" type="submit"><i
+                          class="icon-refresh"></i> {{ "Refresh" | localize }}</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="row align-items-center"> -->
+<!--<Primeng-TurboTable-Start>-->
+<!-- <div [busyIf]="primengTableHelper.isLoading" class="col primeng-datatable-container">
+              <p-table
+                #dataTable
+                (onLazyLoad)="getLanguageTexts($event)"
+                [lazy]="true"
+                [paginator]="false"
+                [responsive]="primengTableHelper.isResponsive"
+                [value]="primengTableHelper.records"
+                rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+              >
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="key">
+                      {{ "Key" | localize }}
+                      <p-sortIcon field="key"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="baseValue">
+                      {{ "BaseValue" | localize }}
+                      <p-sortIcon field="baseValue"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="targetValue">
+                      {{ "TargetValue" | localize }}
+                      <p-sortIcon field="targetValue"></p-sortIcon>
+                    </th>
+                    <th style="width: 100px">{{ "Edit" | localize }}</th>
+                  </tr>
+                </ng-template>
+                <ng-template let-record="$implicit" pTemplate="body">
+                  <tr>
+                    <td>
+                      <span class="ui-column-title">{{ "Key" | localize }}</span>
+                      <span title="{{ record.key }}">{{ truncateString(record.key) }}</span>
+                    </td>
+                    <td>
+                      <span class="ui-column-title">{{ "BaseValue" | localize }}</span>
+                      <span title="{{ record.baseValue }}">{{ truncateString(record.baseValue) }}</span>
+                    </td>
+                    <td>
+                      <span class="ui-column-title">{{ "TargetValue" | localize }}</span>
+                      <span title="{{ record.targetValue }}">{{ truncateString(record.targetValue) }}</span>
+                    </td>
+                    <td>
+                      <button
+                        (click)="editTextModal.show(baseLanguageName, targetLanguageName, sourceName, record.key, record.baseValue, record.targetValue)"
+                        class="btn btn-outline-primary btn-sm btn-icon"
+                        title="{{ 'Edit' | localize }}"
+                      >
+                        <i [attr.aria-label]="l('Edit')" class="fa fa-edit"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+              <div *ngIf="primengTableHelper.totalRecordsCount == 0" class="primeng-no-data">
+                {{ "NoData" | localize }}
+              </div>
+              <div class="primeng-paging-container">
+                <p-paginator
+                  #paginator
+                  (onPageChange)="getLanguageTexts($event)"
+                  [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                  [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                  [totalRecords]="primengTableHelper.totalRecordsCount"
+                >
+                </p-paginator>
+                <span class="total-records-count">
+                  {{ "TotalRecordsCount" | localize: primengTableHelper.totalRecordsCount }}
+                </span>
+              </div>
+            </div> -->
+<!--<Primeng-TurboTable-End>-->
+<!-- </div>
+        </div>
+      </div>
+    </div> -->
+
+
+<!-- </div>
+</div> -->
+<editTextModal #editTextModal (modalSave)="refreshTextValueFromModal()"></editTextModal>

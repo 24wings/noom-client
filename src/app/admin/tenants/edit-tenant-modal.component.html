@@ -1,0 +1,91 @@
+<ng-container *ngIf="tenant&&active">
+  <nz-modal [nzVisible]="active" [nzTitle]="l('EditTenant')+':'+tenant.tenancyName" (nzOnCancel)="close()"
+    (nzOnOk)="save()" [nzOkDisabled]="saving">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form #tenantEditForm="ngForm" (submit)="save()" *ngIf="tenant && active" class="form-validation" novalidate
+          role="form">
+          <div class="modal-body">
+            <nz-form-item class="form-group">
+              <nz-form-label for="Name" nzRequired nzFlex="100px" nz-col>{{ "TenantName" | localize }} </nz-form-label>
+              <nz-form-control nz-col nzFlex="auto">
+                <input nz-input #nameInput="ngModel" [(ngModel)]="tenant.name" [ngClass]="{ edited: tenant.name }"
+                  class="form-control" id="Name" maxlength="128" name="Name" required type="text" />
+                <validation-messages [formCtrl]="nameInput"></validation-messages>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item *ngIf="currentConnectionString" class="form-group">
+              <nz-form-label nz-col nzFlex="100px" for="DatabaseConnectionString" nzRequired>
+                {{ "DatabaseConnectionString" | localize }} *
+              </nz-form-label>
+              <nz-form-control nz-col nzFlex="auto">
+                <input nz-input #connectionStringInput="ngModel" [(ngModel)]="tenant.connectionString"
+                  class="form-control" id="DatabaseConnectionString" maxlength="1024" name="ConnectionString" required
+                  type="text" />
+                <validation-messages [formCtrl]="connectionStringInput"></validation-messages>
+              </nz-form-control>
+            </nz-form-item>
+            <div *ngIf="currentConnectionString">
+              <span
+                class="help-block text-warning">{{ "TenantDatabaseConnectionStringChangeWarningMessage" | localize }}</span>
+            </div>
+            <nz-form-item class="form-group">
+              <nz-form-label for="edition" nz-col nzFlex="100px">{{ "Edition" | localize }}</nz-form-label>
+              <nz-form-control nz-col nzFlex="auto">
+                <nz-select (change)="onEditionChange()" [(ngModel)]="tenant.editionId" class="form-control" id="edition"
+                  style="width: 250px;" name="edition">
+                  <nz-option *ngFor="let edition of editions" [nzValue]="edition.value" [nzLabel]="edition.displayText">
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item [hidden]="!isSubscriptionFieldsVisible" class="kt-checkbox-list">
+              <nz-form-label class="kt-checkbox" nz-col nzFlex="100px">
+                <input nz-input (ngModelChange)="onUnlimitedChange()" [(ngModel)]="isUnlimited"
+                  id="CreateTenant_IsUnlimited" name="IsUnlimited" type="checkbox" />
+              </nz-form-label>
+              <nz-form-control nzFlex="auto" nz-col>
+                {{ "UnlimitedTimeSubscription" | localize }}
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item [hidden]="isUnlimited || !isSubscriptionFieldsVisible"
+              [ngClass]="{ 'has-error': !subscriptionEndDateUtcIsValid }" class="form-group">
+              <nz-form-label nz-col nzFlex="100px" for="SubscriptionEndDateUtc">
+                {{ "SubscriptionEndDateUtc" | localize }}</nz-form-label>
+              <nz-form-control nzFlex="auto" nz-col>
+                <nz-range-picker #SubscriptionEndDateUtc (dateChange)="subscriptionEndDateChange($event)"
+                  [(ngModel)]="tenant.subscriptionEndDateUtc" [required]="!isUnlimited" bsDatepicker
+                  class="form-control" datePickerMomentModifier id="SubscriptionEndDateUtc"
+                  name="SubscriptionEndDateUtc" type="datetime">
+                </nz-range-picker>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item [hidden]="!isSubscriptionFieldsVisible" class="kt-checkbox-list">
+              <nz-form-label class="kt-checkbox" nz-col nzFlex="100px">
+                <input [(ngModel)]="tenant.isInTrialPeriod" [disabled]="selectedEditionIsFree()"
+                  id="CreateTenant_IsInTrialPeriod" name="IsInTrialPeriod" type="checkbox" />
+
+                <span></span>
+              </nz-form-label>
+              <nz-form-control nz-col nzFlex="auto">
+                {{ "IsInTrialPeriod" | localize }}
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="kt-checkbox-list">
+              <nz-form-label class="kt-checkbox" nz-col nzFlex="100px">
+                <input [(ngModel)]="tenant.isActive" id="EditTenant_IsActive" name="IsActive" type="checkbox" />
+
+                <span></span>
+              </nz-form-label>
+              <nz-form-control nz-col nzFlex="auto">{{ "Active" | localize }}</nz-form-control>
+            </nz-form-item>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </nz-modal>
+</ng-container>

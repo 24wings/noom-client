@@ -1,0 +1,44 @@
+<nz-modal [nzTitle]="'新增社区'" [nzVisible]="active" [nzWidth]="600" [nzOkDisabled]="!canSubmit" (nzOnOk)="save()"
+          (nzOnCancel)="active=false">
+  <div *ngIf="active" autocomplete="off" novalidate>
+
+    <nz-form-item>
+
+      <nz-form-label nzRequired>{{ "店铺名称" | localize }}</nz-form-label>
+      <nz-form-control>
+        <input nz-input #roleNameInput="ngModel" [(ngModel)]="distribut.shop_name" class="form-control"
+               id="RoleDisplayName" maxlength="64" name="DisplayName" required type="text" />
+        <validation-messages [formCtrl]="roleNameInput"></validation-messages>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>{{"店铺签名"|localize}}</nz-form-label>
+      <nz-form-control>
+        <input nz-input #roleNameInput="ngModel" [(ngModel)]="distribut.shop_sign" class="form-control"
+               id="RoleDisplayName" maxlength="64" name="DisplayName" required type="text" />
+        <validation-messages [formCtrl]="roleNameInput"></validation-messages>
+      </nz-form-control>
+
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired>{{"商户昵称"|localize}}</nz-form-label>
+      <nz-form-control>
+        <input nz-input #roleNameInput="ngModel" [(ngModel)]="distribut.nickname" class="form-control"
+               id="RoleDisplayName" maxlength="64" name="DisplayName" required type="text" />
+        <validation-messages [formCtrl]="roleNameInput"></validation-messages>
+      </nz-form-control>
+
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired>{{"门牌号"|localize}}</nz-form-label>
+      <nz-form-control>
+        <input nz-input #roleNameInput="ngModel" [(ngModel)]="distribut.neighbourNum" class="form-control"
+               id="RoleDisplayName" maxlength="64" name="DisplayName" required type="text" />
+        <validation-messages [formCtrl]="roleNameInput"></validation-messages>
+      </nz-form-control>
+
+    </nz-form-item>
+
+  </div>
+</nz-modal>

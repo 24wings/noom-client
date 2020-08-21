@@ -1,0 +1,54 @@
+<!--suppress TypeScriptUnresolvedVariable -->
+
+<nz-card [nzTitle]="l('OrganizationTree')" [nzExtra]="extraTemplate">
+    <nz-tree #treeComponent [nzData]="treeData" nzShowLine (nzClick)="nodeSelect($event)">
+        <ng-template #nzTreeTemplate let-node let-origin="origin">
+            <span class="custom-node" (click)="nodeSelect(node)">
+                <span *ngIf="!node.isLeaf" (contextmenu)="contextMenu($event,node, menu)">
+                    <i nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'"></i>
+                    <span class="folder-name">{{ node.title }}</span>
+
+                </span>
+                <span *ngIf="node.isLeaf" (contextmenu)="contextMenu($event,node, menu)">
+                    <i nz-icon nzType="file"></i>
+                    <span class="file-name">{{ node.title }}</span>
+
+                </span>
+            </span>
+        </ng-template>
+    </nz-tree>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+            <li nz-menu-item (click)="edit($event)">{{l('Edit')}}</li>
+            <li nz-menu-item (click)="addChild()">{{l('AddChild')}}</li>
+            <li nz-menu-item (click)="deleteUnit(contextMenuData.origin.id)">{{l('Delete')}}</li>
+        </ul>
+    </nz-dropdown-menu>
+    <ng-template #extraTemplate>
+        <a (click)="addUnit(null)" style="color: violet;"
+            *ngIf="'Pages.Administration.OrganizationUnits.ManageOrganizationTree' | permission"><i nz-icon
+                nzType="plus" nzTheme="outline"></i> {{ "AddRootUnit" | localize }}</a>
+    </ng-template>
+    <!-- <p-tree (onNodeDrop)="nodeDrop($event)" (onNodeSelect)="nodeSelect($event)" [(selection)]="selectedOu"
+            [contextMenu]="ouContextMenu" [draggableNodes]="canManageOrganizationUnits"
+            [droppableNodes]="canManageOrganizationUnits" [value]="treeData" selectionMode="single">
+            <ng-template let-node pTemplate="default">
+                <div>
+                    <span>
+                        {{ node.label }}
+                    </span>
+                    <small style="font-size: .82em; opacity: .5;">{{ node.memberCount }} {{ "Members" | localize }},
+                        {{ node.roleCount }} {{ "Roles" | localize }}</small>
+                </div>
+            </ng-template>
+        </p-tree>
+        <p-contextMenu #ouContextMenu [model]="ouContextMenuItems" appendTo="body" baseZIndex="99999"></p-contextMenu> -->
+    <div *ngIf="!totalUnitCount" class="text-muted">
+        {{ "NoOrganizationUnitDefinedYet" | localize }}
+    </div>
+</nz-card>
+
+
+<createOrEditOrganizationUnitModal #createOrEditOrganizationUnitModal (unitCreated)="unitCreated($event)"
+    (unitUpdated)="unitUpdated($event)"></createOrEditOrganizationUnitModal>
+<entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>

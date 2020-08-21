@@ -1,0 +1,12 @@
+<div nz-dropdown [nzDropdownMenu]="langMenu" [nzPlacement]="placement" [ngClass]="btnClass">
+  <i nz-icon nzType="global" [ngClass]="btnIconClass"></i>
+</div>
+<nz-dropdown-menu #langMenu="nzDropdownMenu">
+  <div nz-menu class="width-sm">
+    <li nz-menu-item *ngFor="let language of languages" [nzSelected]="language.name === settings.layout.lang"
+      (click)="changeLanguage(language)">
+      <i [attr.aria-label]="language.displayName" class="{{ language.icon }}"></i> <span role="img"
+        [attr.aria-label]="language.displayName">{{ language.displayName }}</span>
+    </li>
+  </div>
+</nz-dropdown-menu>

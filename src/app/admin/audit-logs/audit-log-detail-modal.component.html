@@ -1,0 +1,134 @@
+<nz-modal [nzVisible]="active" [nzFooter]="tplFooter" [title]="'AuditLogDetail' | localize ">
+
+  <form #roleForm="ngForm" *ngIf="active">
+
+    <div class="modal-body">
+      <h3>
+        {{ "UserInformations" | localize }}
+      </h3>
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nz-col nzSpan="6"> {{ "UserName" | localize }} </nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+              <span>{{ auditLog.userName }}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nz-col nzSpan="6"> {{ "IpAddress" | localize }} </nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+              <span>{{ auditLog.clientIpAddress }}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nz-col nzSpan="6"> {{ "Client" | localize }}</nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+              <span>{{ auditLog.clientName }}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nz-col nzSpan="6">{{ "Browser" | localize }} </nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+              <span>{{ auditLog.browserInfo }}</span>
+            </nz-form-control>
+          </nz-form-item>
+
+        </div>
+        <div nz-col nzSpan="24" *ngIf="auditLog.impersonatorUserId">
+          <nz-form-item>
+
+            <nz-form-label nz-col nzSpan="6"></nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+              <span>{{ "AuditLogImpersonatedOperationInfo" | localize }}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <h3>{{ "ActionInformations" | localize }}</h3>
+        <div nz-col nzSpan="24" *ngIf="auditLog.impersonatorUserId">
+          <nz-form-item>
+
+            <nz-form-label nz-col nzSpan="6">{{ "Service" | localize }}</nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+              <span>{{ auditLog.serviceName }}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nz-col nzSpan="6"> {{ "Action" | localize }} </nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+              <span>{{ auditLog.methodName }}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nz-col nzSpan="6"> {{ "Time" | localize }}: </nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+              <span>{{ getExecutionTime() }}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nz-col nzSpan="6"> {{ "Duration" | localize }}: </nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+              <span>{{ getDurationAsMs() }}</span>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+            <nz-form-label nz-col nzSpan="6"> {{ "Parameters" | localize }}</nz-form-label>
+            <nz-form-control nz-col nzSpan="18">
+              <pre lang="js">{{ getFormattedParameters() }}</pre>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+
+    <h3>{{ "CustomData" | localize }}</h3>
+
+
+    <div nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label nz-col nzSpan="6"> {{ "None" | localize }}</nz-form-label>
+        <nz-form-control nz-col nzSpan="18" *ngIf="auditLog.customData">
+          <pre>{{ auditLog.customData }}</pre>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+
+    <div nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label nz-col nzSpan="6">{{ "ErrorState" | localize }}</nz-form-label>
+        <nz-form-control nz-col nzSpan="18">
+          <div *ngIf="!auditLog.exception" class="col-lg-12 col-form-label"> <i
+              class="fa fa-check-circle kt-font-success"></i> {{ "Success" | localize }} </div>
+          <div *ngIf="auditLog.exception" class="col-lg-12 alert kt-alert kt-alert--default">
+            <pre>{{ auditLog.exception }}</pre>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+
+  </form>
+  <ng-template #tplFooter>
+    <button nz-buton (click)="close()" nz-button nzType="primary">
+      {{ "Close" | localize }}
+    </button>
+  </ng-template>
+</nz-modal>

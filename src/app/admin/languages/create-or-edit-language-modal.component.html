@@ -1,0 +1,42 @@
+<!--suppress TypeScriptUnresolvedVariable -->
+<nz-modal [nzVisible]="active" (nzOnCancel)="close()" (nzOnOk)="save()"
+  [nzTitle]="!language.id?l('CreateNewLanguage'):l('EditLanguage')">
+
+  <form #editForm="ngForm" (ngSubmit)="save()" *ngIf="active" novalidate>
+    <nz-form-item>
+
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">{{l('Language')}}</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-select style="width: 100%;" #languageCombobox="ngModel" [(ngModel)]="language.name" name="languageName">
+          <nz-option [nzValue]="l.value" [nzLabel]="l.label" *ngFor="let l of languageNamesSelectItems"></nz-option>
+        </nz-select>
+        <validation-messages [formCtrl]="languageCombobox"></validation-messages>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">{{l('LanguageIcon')}}</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-select style="width: 100%;" #iconCombobox="ngModel" [(ngModel)]="language.icon" name="languageIcon">
+          <nz-option [nzValue]="l.value" [nzLabel]="l.label" *ngFor="let l of flagsSelectItems"></nz-option>
+        </nz-select>
+        <validation-messages [formCtrl]="iconCombobox"></validation-messages>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">{{l('IsEnabled')}}</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-switch #swichCombox [(ngModel)]="language.isEnabled" id="EditLanguage_IsEnabled" name="languageIsEnabled"
+          [nzCheckedChildren]="'启用'" [nzUnCheckedChildren]="'禁用'">
+        </nz-switch>
+        <validation-messages [formCtrl]="swichCombox"></validation-messages>
+      </nz-form-control>
+    </nz-form-item>
+
+
+
+
+
+  </form>
+
+</nz-modal>

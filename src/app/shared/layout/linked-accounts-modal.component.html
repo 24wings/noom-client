@@ -1,0 +1,87 @@
+<ng-container *ngIf="active">
+
+  <nz-modal [nzTitle]="l('LinkedAccounts')" [nzVisible]="active" (nzOnCancel)="close()" [nzFooter]="tplFooter">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+          </h4>
+          <button nz-button (click)="manageLinkedAccounts()" nzType="primary"><i nzType="plus"
+              nz-icon></i>{{ "LinkNewAccount" | localize }}</button>
+        </div>
+        <div class="modal-body">
+          <st [columns]="columns" [data]="dataList" [loading]="loading"
+            [page]="{pageNumber:pageNumber,show:show,totalItems:totalItems,totalPages:totalPages}"></st>
+          <!--<Primeng-TurboTable-Start>-->
+          <!-- <div [busyIf]="primengTableHelper.isLoading" class="primeng-datatable-container">
+          <p-table
+            #dataTable
+            (onLazyLoad)="getLinkedUsers($event)"
+            [lazy]="true"
+            [paginator]="false"
+            [responsive]="primengTableHelper.isResponsive"
+            [value]="primengTableHelper.records"
+            rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width:20%">
+                  {{ "Actions" | localize }}
+                </th>
+                <th pSortableColumn="userName" style="width:65%">
+                  {{ "UserName" | localize }}
+                  <p-sortIcon field="userName"></p-sortIcon>
+                </th>
+                <th style="width:15%">
+                  {{ "Delete" | localize }}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template let-record="$implicit" pTemplate="body">
+              <tr>
+                <td style="width:20%">
+                  <button (click)="switchToUser(record)" class="btn btn-sm btn-primary"><i class="fa fa-sign-in-alt"></i>{{ "LogIn" | localize }}</button>
+                </td>
+                <td style="width: 65%">
+                  <span class="ui-column-title"> {{ "UserName" | localize }}</span>
+                  {{ getShownLinkedUserName(record) }}
+                </td>
+                <td style="width:15%">
+                  <button (click)="deleteLinkedUser(record)" class="btn btn-outline-danger btn-sm btn-icon">
+                    <i [attr.aria-label]="l('Delete')" class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <div *ngIf="primengTableHelper.totalRecordsCount == 0" class="primeng-no-data">
+            {{ "NoData" | localize }}
+          </div>
+          <div class="primeng-paging-container">
+            <p-paginator
+              #paginator
+              (onPageChange)="getLinkedUsers($event)"
+              [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+              [rows]="primengTableHelper.defaultRecordsCountPerPage"
+              [totalRecords]="primengTableHelper.totalRecordsCount"
+            >
+            </p-paginator>
+            <span class="total-records-count">
+              {{ "TotalRecordsCount" | localize: primengTableHelper.totalRecordsCount }}
+            </span>
+          </div>
+        </div> -->
+          <!--<Primeng-TurboTable-End>-->
+        </div>
+        <ng-template #tplFooter>
+          <div style="text-align: right;">
+            <button nz-button (click)="close()" class="btn btn-default pull-right"
+              type="button">{{ "Close" | localize }}</button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </nz-modal>
+
+</ng-container>
+<linkAccountModal #linkAccountModal (modalSave)="getLinkedUsers()"></linkAccountModal>

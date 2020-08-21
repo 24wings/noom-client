@@ -1,0 +1,37 @@
+<!--suppress TypeScriptUnresolvedVariable -->
+
+
+<div nz-row>
+    <div nz-col nzSpan="18">
+        <nz-input-group [nzAddOnAfter]="suffixIconButton" nzSearch>
+            <input type="text" nz-input [placeholder]="l('Search')" />
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" (click)="getOrganizationUnitRoles()" nzSearch><i nz-icon
+                        nzType="search"></i></button>
+            </ng-template>
+        </nz-input-group>
+
+
+    </div>
+    <div nz-col nzSpan="6">
+        <!-- Todo: -->
+        <a nz-button nzType="link"
+            *ngIf="('Pages.Administration.OrganizationUnits.ManageRoles' | permission) && organizationUnit"
+            (click)="openAddRoleModal()"><i nz-icon nzType="plus"></i>{{l('AddMember')}}</a>
+        <a nz-button nzType="link" (click)="removeRoleBat()"> <i nz-icon nzType="delete"></i> {{l('Remove')}} </a>
+    </div>
+</div>
+<div class="row">
+    <nz-alert style="width: 100%;padding-top:20px;padding-bottom: 20px;" nzType="info"
+        [nzMessage]="'已选择'+getSelectedItems()+'条'" nzShowIcon>
+    </nz-alert>
+    <st style="width: 100%;" [widthMode]="'default'" [data]="dataList" [columns]="columns" [loading]="loading"
+        [page]="{pageNumber:pageNumber,show:show,totalItems:totalItems,totalPages:totalPages}"></st>
+</div>
+
+
+<div *ngIf="!organizationUnit" class="text-muted">
+    {{ "SelectAnOrganizationUnitToSeeRoles" | localize }}
+</div>
+
+<addRoleModal #addRoleModal (rolesAdded)="addRoles($event)"></addRoleModal>

@@ -1,0 +1,125 @@
+#HostDashboard {
+  @chartHeight: 260;
+
+  div.chart {
+    width: 100%;
+    height: @chartHeight*1px;
+
+    h3 {
+      small {
+        padding-left: 0 !important;
+      }
+    }
+  }
+
+  .primeNgDataTableTheme(@backgroundColor) {
+    thead th {
+      color: white;
+      background-color: @backgroundColor !important;
+    }
+  }
+
+  .expiring-tenants-table {
+    color: green;
+    .primeNgDataTableTheme(#e08283);
+
+  }
+
+  .recent-tenants-table {
+    .primeNgDataTableTheme(#8877a9);
+  }
+
+
+
+  div.pie-chart-label {
+    padding: 5px;
+    color: white;
+    font-size: 8pt;
+    text-align: center;
+    border: 1px solid grey;
+  }
+
+  div.portlet {
+    div.portlet-title {
+      div.caption {
+        div.caption-helper {
+          margin-top: 5px;
+        }
+      }
+
+      div.actions {
+        padding: 0;
+      }
+    }
+
+    div.portlet-body {
+      min-height: (@chartHeight + 70) * 1px;
+    }
+  }
+
+  div.float-x-axis>div {
+    white-space: nowrap;
+    text-indent: -6%;
+    transform: translate(0, 0) rotate(-25deg);
+    transform-origin: bottom;
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  .portlet>.portlet-title>.caption>.caption-helper {
+    font-size: 11px;
+  }
+
+  .m-subheader .m-subheader__daterange>.btn>i {
+    font-size: 22px !important;
+  }
+
+  .m-subheader .m-subheader__daterange .m-subheader__daterange-label {
+    padding: 0 0.75rem 0 0.75rem !important;
+  }
+
+  @media (max-width: 768px) {
+    .m-subheader .m-subheader__daterange {
+      padding: 0 !important;
+    }
+
+    .m-subheader__daterange.dashboard-report-range {
+      a.btn-primary {
+        padding: 19px !important;
+      }
+    }
+  }
+}
+
+.income-statistics {
+  svg.ngx-charts {
+    margin-top: -20px;
+    margin-left: -40px;
+  }
+}
+
+.edition-statistics {
+  svg.ngx-charts {
+    margin-top: -30px;
+    margin-left: -40px;
+  }
+}
+
+.dashboard-report-range {
+  margin-left: 5px;
+  color: #fff !important;
+}
+
+
+
+.kt-portlet__head-toolbar label.btn {
+  cursor: pointer;
+}
+
+.kt-subheader__wrapper {
+  .dashboard-report-range {
+    margin-right: -204px;
+  }
+}

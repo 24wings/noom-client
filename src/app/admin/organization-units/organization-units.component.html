@@ -1,0 +1,32 @@
+<page-header-wrapper [title]="l('OrganizationUnitsHeaderInfo')">
+
+
+
+    <nz-card>
+        <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+            <div nz-col nzXs="24" nzLg="8" nzSm="11">
+                <organization-tree #ouTree (ouSelected)="ouSelected($event)"></organization-tree>
+            </div>
+            <div nz-col nzXs="24" nzSm="15" nzLg="16">
+                <nz-card [nzExtra]="extraTemplate">
+
+                    <ng-template #extraTemplate>
+                        <span *ngIf="organizationUnit">{{ organizationUnit.displayName }}</span>
+                    </ng-template>
+
+                    <nz-tabset>
+                        <nz-tab [nzTitle]="l('Members')">
+                            <organization-unit-members #ouMembers (memberRemoved)="ouTree.memberRemoved($event)"
+                                (membersAdded)="ouTree.membersAdded($event)"></organization-unit-members>
+                        </nz-tab>
+                        <nz-tab [nzTitle]="l('Roles')">
+                            <organization-unit-roles #ouRoles (roleRemoved)="ouTree.roleRemoved($event)"
+                                (rolesAdded)="ouTree.rolesAdded($event)">
+                            </organization-unit-roles>
+                        </nz-tab>
+                    </nz-tabset>
+                </nz-card>
+            </div>
+        </div>
+    </nz-card>
+</page-header-wrapper>

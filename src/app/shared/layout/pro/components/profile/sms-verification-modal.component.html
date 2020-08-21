@@ -1,0 +1,30 @@
+<nz-modal [nzVisible]="active">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form #smsVerificationModalForm="ngForm" (ngSubmit)="save()" *ngIf="active">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <span>{{ "VerifyYourCode" | localize }}</span>
+          </h5>
+          <button (click)="close()" [attr.aria-label]="l('Close')" class="close" type="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group" id="inputDiv">
+            <label for="YourCode">{{ "YourCode" | localize }} *</label>
+            <input #codeInput="ngModel" [(ngModel)]="verifyCodeInput.code" autoFocus class="form-control" id="YourCode"
+              maxlength="6" minlength="6" name="Code" required type="text" />
+            <validation-messages [formCtrl]="codeInput"></validation-messages>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button [disabled]="!smsVerificationModalForm.form.valid || saving" class="btn btn-primary" type="submit">
+            <i class="fa fa-save"></i> <span>{{ "Verify" | localize }}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</nz-modal>

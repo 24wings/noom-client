@@ -1,0 +1,32 @@
+<ng-container *ngIf="entityChange&&active">
+    <nz-modal [nzVisible]="active" [nzTitle]="('Detail'|localize)+'-'+entityChange.entityTypeFullName | localize "
+        [nzFooter]="tplFooter">
+
+        <div class="modal-body">
+            <table class="display table table-striped table-bordered table-hover dt-responsive"
+                id="EntityPropertyChangesTable">
+                <thead>
+                    <tr>
+                        <th>{{ "Property" | localize }}</th>
+                        <th>{{ "OriginalValue" | localize }}</th>
+                        <th>{{ "NewValue" | localize }}</th>
+                    </tr>
+                    <tr *ngFor="let propertyChange of entityPropertyChanges">
+                        <td>
+                            <strong>{{ propertyChange.propertyName }}</strong>
+                        </td>
+
+                        <td>{{ getPropertyChangeValue(propertyChange.originalValue, propertyChange.propertyTypeFullName) }}
+                        </td>
+                        <td>{{ getPropertyChangeValue(propertyChange.newValue, propertyChange.propertyTypeFullName) }}
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <ng-template #tplFooter>
+            <button nz-button (click)="close()" class="btn btn-default" type="button">{{ "Close" | localize }}</button>
+        </ng-template>
+
+    </nz-modal>
+</ng-container>

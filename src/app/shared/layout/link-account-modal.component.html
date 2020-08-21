@@ -1,0 +1,35 @@
+<ng-container *ngIf="active">
+  <nz-modal [nzVisible]="active" [nzTitle]="l('LinkNewAccount')" (nzOnCancel)="close()" (nzOnOk)="save()">
+    <form #linkAccountForm="ngForm" (ngSubmit)="save()" *ngIf="active" novalidate>
+      <nz-form-item>
+        <nz-form-label for="TenancyName">{{ "TenancyName" | localize }}</nz-form-label>
+        <nz-form-control>
+          <input nz-input #tenancyNameInput="ngModel" [(ngModel)]="linkUser.tenancyName"
+            [ngClass]="{ edited: linkUser.tenancyName }" class="form-control" id="TenancyName" maxlength="64"
+            name="TenancyName" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label for="UserName">{{ "UserName" | localize }} </nz-form-label>
+        <nz-form-control>
+          <input nz-input #usernameOrEmailAddressInput="ngModel" [(ngModel)]="linkUser.usernameOrEmailAddress"
+            [ngClass]="{ edited: linkUser.usernameOrEmailAddress }" class="form-control" id="UserName" maxlength="256"
+            name="UserName" required type="text" />
+          <validation-messages [formCtrl]="usernameOrEmailAddressInput"></validation-messages>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label for="Password">{{ "Password" | localize }} </nz-form-label>
+        <nz-form-control>
+          <input nz-input #passwordInput="ngModel" [(ngModel)]="linkUser.password"
+            [ngClass]="{ edited: linkUser.password }" class="form-control" id="Password" maxlength="128" name="Password"
+            required type="password" />
+          <validation-messages [formCtrl]="passwordInput"></validation-messages>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+  </nz-modal>
+</ng-container>

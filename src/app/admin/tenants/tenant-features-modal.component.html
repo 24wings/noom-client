@@ -1,0 +1,28 @@
+<ng-container *ngIf="active">
+  <nz-modal [nzVisible]="active" [nzTitle]="l('Features')" [nzFooter]="tplFooter">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form #editTenantFeaturesForm="ngForm" (submit)="save()" class="form-validation" name="editTenantFeaturesForm"
+          novalidate role="form">
+
+          <div class="modal-body">
+            <feature-tree #featureTree></feature-tree>
+          </div>
+
+
+          <ng-template #tplFooter>
+            <button (click)="resetFeatures()" nz-button [disabled]="saving"
+              type="button"><span>{{ "ResetSpecialFeatures" | localize }}</span></button>
+            <button nz-button (click)="close()" [disabled]="saving || resettingFeatures"
+              type="button">{{ "Cancel" | localize }}</button>
+            <button nz-button [nzLoading]="saving" (click)="save()" [disabled]="resettingFeatures" nzType="primary"
+              type="submit">
+              <i class="fa fa-save"></i> <span>{{ "Save" | localize }}</span>
+            </button>
+          </ng-template>
+        </form>
+      </div>
+    </div>
+  </nz-modal>
+
+</ng-container>

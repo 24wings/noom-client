@@ -1,0 +1,38 @@
+<ng-container *ngIf="active">
+  <nz-modal [nzVisible]="active" (nzOnCancel)="close()" (nzOnOk)="save()" [nzOkDisabled]="saving"
+    [nzCancelDisabled]="saving">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form #editionForm="ngForm" (ngSubmit)="save()" novalidate>
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <span>{{ l("EditEdition") }}: {{ edition.edition.displayName }}</span>
+            </h5>
+            <button (click)="close()" [attr.aria-label]="l('Close')" [disabled]="saving" class="close" type="button">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <nz-tabset>
+              <nz-tab nzTitle="{{ l('EditionProperties') }}">
+                <nz-form-item>
+                  <nz-form-label for="EditionDisplayName" nzRequired>{{ l("EditionName") }} </nz-form-label>
+                  <nz-form-control>
+                    <input #editionNameInput="ngModel" nz-input [(ngModel)]="edition.edition.displayName"
+                      [ngClass]="edition.edition.displayName" class="form-control" id="EditionDisplayName"
+                      maxlength="64" name="EditionDisplayName" required type="text" />
+                    <validation-messages [formCtrl]="editionNameInput"></validation-messages>
+                  </nz-form-control>
+                </nz-form-item>
+              </nz-tab>
+              <nz-tab nzTitle="{{ l('Features') }}">
+                <feature-tree #featureTree></feature-tree>
+              </nz-tab>
+            </nz-tabset>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </nz-modal>
+</ng-container>

@@ -1,0 +1,119 @@
+<page-header-wrapper [title]="l('Maintenance')">
+  <nz-card>
+    <nz-tabset>
+      <nz-tab [nzTitle]="l('Caches')">
+        <div nz-row>
+          <div nz-col nzSpan="12">{{l('CachesHeaderInfo')}}</div>
+          <div nz-col nzSpan="12">
+            <button nz-button nzType="primary" (click)="clearAllCaches()"><i class="fa fa-recycle"></i>
+              {{ l("ClearAll")  }}</button>
+          </div>
+        </div>
+        <div>
+          <st [loading]="loading" [data]="caches" [columns]="columns" [page]="{totalItems:true,total:true}"></st>
+
+        </div>
+      </nz-tab>
+      <nz-tab [nzTitle]="l('WebSiteLogs')">
+        <div>
+          <p>{{ "WebSiteLogsHeaderInfo" | localize }}</p>
+          <div nz-row style="display: flex;justify-content: flex-end;">
+            <button nz-button (click)="downloadWebLogs()" nzType="primary"> <i class="fa fa-download"></i>
+              {{ "DownloadAll" | localize }}</button>
+            <button nz-button nzType="primary" (click)="getWebLogs()"><i class="fa fa-sync"></i>
+              {{ "Refresh" | localize }}</button>
+          </div>
+
+          <div class="web-log-view full-height"
+            style="height: 700px;overflow-x: auto;overflow-y: scroll;white-space: initial;">
+            <p style="word-break: break-all;" *ngFor="let log of logs">
+              {{log}}
+            </p>
+          </div>
+          <!-- <div class="web-log-view full-height">
+
+
+            <span *ngFor="let log of logs" class="log-line">
+              <span [class]="getLogClass(log)">{{ getLogType(log) }}</span>
+              {{ getRawLogContent(log) }}
+            </span>
+          </div> -->
+        </div>
+      </nz-tab>
+
+
+    </nz-tabset>
+  </nz-card>
+</page-header-wrapper>
+<!-- 
+<div (window:resize)="onResize($event)" [@routerTransition]>
+  <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+    <div class="kt-subheader kt-grid__item">
+      <div>
+        <div class="kt-subheader__main">
+          <h3 class="kt-subheader__title">
+            <span>{{ "Maintenance" | localize }}</span>
+          </h3>
+        </div>
+      </div>
+    </div>
+    <div [class]="' kt-grid__item kt-grid__item--fluid'">
+      <div class="kt-portlet">
+        <div class="kt-portlet__body">
+          <nz-tabset>
+            <nz-tab nzTitle=" {{ 'Caches' | localize }}">
+              <div class="row mb-2">
+                <div class="col-xl-6">
+                  <p>{{ "CachesHeaderInfo" | localize }}</p>
+                </div>
+                <div class="col-xl-6 text-right">
+                  <button (click)="clearAllCaches()" class="btn btn-primary"><i class="fa fa-recycle"></i>
+                    {{ "ClearAll" | localize }}</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12">
+                  <table class="table table-striped table-hover table-bordered">
+                    <tbody>
+                      <tr *ngFor="let cache of caches">
+                        <td>
+                          <span>{{ cache.name }}</span>
+                          <button (click)="clearCache(cache.name)" class="btn btn-primary btn-sm pull-right">
+                            {{ "Clear" | localize }}
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </nz-tab>
+            <nz-tab nzTitle="{{ 'WebSiteLogs' | localize }}">
+              <div class="row mb-2">
+                <div class="col-xl-6">
+                  <p>{{ "WebSiteLogsHeaderInfo" | localize }}</p>
+                </div>
+                <div class="col-xl-6 text-right">
+                  <button (click)="downloadWebLogs()" class="btn btn-secondary"><i class="fa fa-download"></i>
+                    {{ "DownloadAll" | localize }}</button>
+                  <button (click)="getWebLogs()" class="btn btn-primary"><i class="fa fa-sync"></i>
+                    {{ "Refresh" | localize }}</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="web-log-view full-height">
+                    <span *ngFor="let log of logs" class="log-line">
+                      <span [class]="getLogClass(log)">{{ getLogType(log) }}</span>
+                      {{ getRawLogContent(log) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </nz-tab>
+          </nz-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

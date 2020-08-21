@@ -1,0 +1,19 @@
+<page-header-wrapper [title]="l('EditionsHeaderInfo')">
+  <nz-card>
+
+    <div nz-row>
+      <button nz-button nzType="primary" (click)="createEdition()" *ngIf="'Pages.Editions.Create' | permission"> <i
+          nz-icon nzType="plus"></i>{{l('CreateNewEdition')}}</button>
+    </div>
+    <div nz-row>
+      <st [columns]="columns" [data]="dataList" style="width: 100%;" [loading]="loading"
+        [page]="{pageNumber:pageNumber,show:show,totalItems:totalItems,totalPages:totalPages}"></st>
+    </div>
+  </nz-card>
+
+</page-header-wrapper>
+
+
+<createEditionModal #createEditionModal (modalSave)="getEditions()"></createEditionModal>
+<editEditionModal #editEditionModal (modalSave)="getEditions()"></editEditionModal>
+<moveTenantsToAnotherEditionModal #moveTenantsToAnotherEditionModal></moveTenantsToAnotherEditionModal>

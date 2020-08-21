@@ -1,0 +1,63 @@
+<page-header-wrapper [title]="title" [action]="action">
+  <ng-template #title>
+    {{l('Users')}}
+    <span class="text-sm text-grey-dark">
+      <nz-divider nzType="vertical"></nz-divider>
+      {{l('Users')}}
+    </span>
+  </ng-template>
+  <ng-template #action>
+    <div style="display: flex;justify-content: flex-end;">
+
+      <button nz-button nzType="primary" (click)="create()"> <i nz-icon nzType="plus" nzTheme="outline"></i>
+        {{l("CreateNewUser")}}</button>
+    </div>
+  </ng-template>
+
+
+  <nz-card>
+    <div>
+      <div class="wrapper">
+        <div class="container">
+          <!-- <div dragula="DRAGULA_FACTS" [(dragulaModel)]="defaultT">
+            <drag-cotainer [alias]="'input'" [config]="{nzPlaceHolder:'sss'}">
+            </drag-cotainer>
+          </div>
+
+          <div nz-row style="padding: 20px;border:1px solid #eeeeee" dragula="DRAGULA_FACTS"
+               [(dragulaModel)]="defaultT">
+            <drag-cotainer [alias]="'grid'" [nzMd]="12" [nzSm]="12" nz-col [config]="{nzMd:24}">
+            </drag-cotainer>
+          </div> -->
+          <div style="border:1px solid blue; padding:10px" nz-row dragula="DRAGULA_FACTS"
+               [(dragulaModel)]="defaultT">
+            <ng-container *ngFor="let c of defaultT">
+              <drag-cotainer [alias]="c.type" [nzMd]="c.nzMd" [nzSm]="c.nzSm" nz-col
+                             [config]="{nzMd:24}">
+              </drag-cotainer>
+            </ng-container>
+          </div>
+          <div dragula="DRAGULA_FACTS" [(dragulaModel)]="controls">
+            <div *ngFor="let c of controls">
+              <drag-cotainer [alias]="c.type" [nzMd]="c.nzMd" [nzSm]="c.nzSm" nz-col
+                             [config]="{nzMd:24}">
+              </drag-cotainer>
+            </div>
+          </div>
+          <div>You can move these elements between these two containers</div>
+          <div>Moving them anywhere else isn't quite possible</div>
+          <div>There's also the possibility of moving elements around in the same container, changing their position
+          </div>
+        </div>
+        <div class="container" dragula="DRAGULA_FACTS">
+          <div>This is the default use case. You only need to specify the containers you want to use</div>
+          <div>More interactive use cases lie ahead</div>
+          <div>Make sure to check out the <a href="https://github.com/bevacqua/dragula#readme">documentation on
+              GitHub!</a></div>
+        </div>
+      </div>
+    </div>
+    <button nz-button (click)="log()">log</button>
+  </nz-card>
+
+</page-header-wrapper>

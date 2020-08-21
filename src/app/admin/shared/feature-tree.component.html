@@ -1,0 +1,35 @@
+<!--suppress TypeScriptUnresolvedVariable -->
+
+<nz-tree [nzData]="treeData" nzCheckable nzMultiple [nzExpandAll]="true">
+  <ng-template #nzTreeTemplate let-node let-origin="origin">
+    <span class="custom-node">
+      <span *ngIf="!node.isLeaf">
+        <i nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'"></i>
+
+        <span class="folder-name">{{ node.title }}</span>
+        <ng-container *ngIf="node.origin.name=='App.MaxUserCount'">
+          <nz-input-number [(ngModel)]="node.origin.defaultValue"></nz-input-number>
+        </ng-container>
+      </span>
+      <span *ngIf="node.isLeaf">
+        <i nz-icon nzType="file"></i>
+
+        <span class="file-name"> {{ node.title }}</span>
+        <ng-container *ngIf="node.origin.name=='App.MaxUserCount'">
+          <nz-input-number [(ngModel)]="node.origin.defaultValue"></nz-input-number>
+        </ng-container>
+      </span>
+    </span>
+  </ng-template>
+
+</nz-tree>
+<!-- <ng-template let-node pTemplate="default">
+    <span style="margin-right: 5px;">{{ node.label }}</span>
+    <input (change)="onInputChange(node)" *ngIf="node.data.inputType.name === 'SINGLE_LINE_STRING'"
+      [(ngModel)]="node.value" [attr.name]="node.data.name"
+      type="{{ node.data.inputType.validator.name === 'NUMERIC' ? 'number' : 'text' }}" />
+    <select (change)="onDropdownChange(node)" *ngIf="node.data.inputType.name === 'COMBOBOX'" [(ngModel)]="node.value">
+      <option *ngFor="let item of node.data.inputType.itemSource.items" [value]="item.value">{{ item.displayText }}
+      </option>
+    </select>
+  </ng-template> -->

@@ -1,0 +1,36 @@
+<!--suppress TypeScriptUnresolvedVariable -->
+
+<page-header-wrapper [title]="l('LanguagesHeaderInfo')">
+
+  <nz-card>
+    <div nz-row>
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+        <input type="text" [(ngModel)]="filterText" nz-input [placeholder]="l('Search')" />
+      </nz-input-group>
+      <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" nzSearch (click)="getLanguages()"><i nz-icon nzType="search"></i></button>
+      </ng-template>
+    </div>
+    <!-- toolbar -->
+    <div nz-row style="margin-top:20px;margin-bottom: 20px;">
+      <button *ngIf="('Pages.Administration.Languages.Create' | permission) && multiTenancySideIsHost" nz-button
+        nzType="primary" (click)="createOrEditLanguageModal.show() "> <i nz-icon nzType="plus"></i>
+        {{l('CreateNewLanguage')}} </button>
+      <button nzType="danger" nz-button (click)="deleteLanguage($event)">{{l('Remove')}}</button>
+    </div>
+    <!-- alert selection -->
+    <div nz-row>
+      <nz-alert style="width: 100%;padding-top:20px;padding-bottom: 20px;" nzType="info"
+        [nzMessage]="'已选择'+getSelectedItems()+'条'" nzShowIcon>
+      </nz-alert>
+    </div>
+    <!-- data table -->
+    <div nz-row>
+      <st style="width: 100%;" [data]="dataList" [columns]="columns" [loading]="loading"
+        [page]="{pageNumber:pageNumber,show:show,totalItems:totalItems,totalPages:totalPages}"></st>
+    </div>
+  </nz-card>
+</page-header-wrapper>
+
+
+<createOrEditLanguageModal #createOrEditLanguageModal (modalSave)="getLanguages()"></createOrEditLanguageModal>

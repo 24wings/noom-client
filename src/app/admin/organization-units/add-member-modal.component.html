@@ -1,0 +1,22 @@
+<nz-modal [nzVisible]="isShown" [nzTitle]="l('SelectUsers')" (nzOnOk)="addUsersToOrganizationUnit()"
+    [nzOkDisabled]="saving" (nzOnCancel)="close()" [nzCancelDisabled]="saving">
+
+
+    <div class="modal-body">
+        <form (ngSubmit)="refreshTable()" autocomplete="off" novalidate>
+
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" name="filterText" [(ngModel)]="filterText" nz-input
+                    placeholder="{{ 'SearchWithThreeDot' | localize }}" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" type="submit" nzSearch><i nz-icon nzType="search"></i></button>
+            </ng-template>
+            <st #dataTable [columns]="columns" [data]="dataList" [loading]="loading"
+                [page]="{pageNumber:pageNumber,show:show,totalItems:totalItems,totalPages:totalPages}"></st>
+
+        </form>
+    </div>
+
+
+</nz-modal>

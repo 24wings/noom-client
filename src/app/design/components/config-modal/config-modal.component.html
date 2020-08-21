@@ -1,0 +1,13 @@
+<ng-container *ngIf="active">
+  <nz-modal [nzVisible]="active" (nzOnConfirm)="save()" (nzOnOk)="save()">
+    <div nz-form nzLayout="vertical">
+      <nz-form-item *ngFor="let item of uiProps">
+        <nz-form-label>{{item.label}}</nz-form-label>
+        <nz-form-control>
+          <input nz-input [(ngModel)]="item.value">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+  </nz-modal>
+</ng-container>

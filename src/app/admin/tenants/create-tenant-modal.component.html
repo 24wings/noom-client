@@ -1,0 +1,227 @@
+<ng-container *ngIf="active">
+  <nz-modal [nzVisible]="active"
+    [nzOkDisabled]="!tenantCreateForm.form.valid || saving || !subscriptionEndDateIsValid()" (nzOnOk)="save()"
+    (nzOnCancel)="close()" [nzTitle]="l('CreateNewTenant')">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form #tenantCreateForm="ngForm" (submit)="save()" class="form-validation" novalidate role="form">
+
+
+          <nz-form-item>
+            <nz-form-label for="TenancyName">{{ "TenancyName" | localize }} </nz-form-label>
+            <nz-form-control>
+              <input nz-input #tenancyName="ngModel" #tenancyNameInput="ngModel" [(ngModel)]="tenant.tenancyName"
+                [ngClass]="{ edited: tenant.tenancyName }" class="form-control" id="TenancyName" maxlength="64"
+                name="tenancyName" pattern="^[a-zA-Z][a-zA-Z0-9_-]{1,}$" required type="text" />
+              <validation-messages [formCtrl]="tenancyNameInput"></validation-messages>
+            </nz-form-control>
+          </nz-form-item>
+          <div>
+            <span *ngIf="!tenancyName.valid && !tenancyName.pristine"
+              class="form-control-feedback">{{ "TenantName_Regex_Description" | localize }}</span>
+          </div>
+
+          <nz-form-item>
+            <nz-form-label for="Name">{{ "TenantName" | localize }} </nz-form-label>
+            <nz-form-control>
+              <input #nameInput="ngModel" nz-input [(ngModel)]="tenant.name" [ngClass]="{ edited: tenant.name }"
+                class="form-control" id="Name" maxlength="128" name="Name" required type="text" />
+              <validation-messages [formCtrl]="nameInput"></validation-messages>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label class="kt-checkbox">
+              <input nz-input [(ngModel)]="useHostDb" id="CreateTenant_UseHostDb" name="UseHostDb" type="checkbox" />
+
+              <span></span>
+            </nz-form-label>
+            <nz-form-control>
+              {{ "UseHostDatabase" | localize }}
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item *ngIf="!useHostDb">
+            <nz-form-label for="DatabaseConnectionString">{{ "DatabaseConnectionString" | localize }} </nz-form-label>
+            <nz-form-control>
+              <input nz-input #connectionStringInput="ngModel" [(ngModel)]="tenant.connectionString"
+                [ngClass]="{ edited: tenant.connectionString }" class="form-control" id="DatabaseConnectionString"
+                maxlength="1024" name="ConnectionString" required type="text" />
+              <validation-messages [formCtrl]="connectionStringInput"></validation-messages>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label for="AdminEmailAddress">{{ "AdminEmailAddress" | localize }} *</nz-form-label>
+            <nz-form-control>
+              <input nz-input #adminEmailAddressInput="ngModel" [(ngModel)]="tenant.adminEmailAddress"
+                [ngClass]="{ edited: tenant.adminEmailAddress }" class="form-control" id="AdminEmailAddress"
+                maxlength="256" name="AdminEmailAddress" pattern="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
+                required type="email" />
+              <validation-messages [formCtrl]="adminEmailAddressInput"></validation-messages>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item>
+            <nz-form-label class="kt-checkbox">
+              <input nz-input [(ngModel)]="setRandomPassword" id="CreateTenant_SetRandomPassword"
+                name="SetRandomPassword" type="checkbox" />
+
+              <span></span>
+            </nz-form-label>
+            <nz-form-control>
+              {{ "SetRandomPassword" | localize }}
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item *ngIf="!setRandomPassword">
+            <nz-form-label for="AdminPassword">{{ "AdminPassword" | localize }}</nz-form-label>
+            <nz-form-control>
+              <input #AdminPassword="ngModel" [(ngModel)]="tenant.adminPassword" nz-input
+                [ngClass]="{ edited: tenant.adminPassword }" [requireDigit]="passwordComplexitySetting.requireDigit"
+                [requireLowercase]="passwordComplexitySetting.requireLowercase"
+                [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric"
+                [requireUppercase]="passwordComplexitySetting.requireUppercase"
+                [requiredLength]="passwordComplexitySetting.requiredLength" [required]="!setRandomPassword"
+                class="form-control" id="AdminPassword" maxlength="32" name="AdminPassword" type="password"
+                validateEqual="AdminPasswordRepeat" reverse="true" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <div [hidden]="tenantCreateForm.form.valid || tenantCreateForm.form.pristine">
+            <ul *ngIf="tenantCreateForm.controls['adminPassword'] && tenantCreateForm.controls['adminPassword'].errors"
+              class="help-block text-danger">
+              <li [hidden]="!tenantCreateForm.controls['adminPassword'].errors.requireDigit">
+                {{ "PasswordComplexity_RequireDigit_Hint" | localize }}
+              </li>
+              <li [hidden]="!tenantCreateForm.controls['adminPassword'].errors.requireLowercase">
+                {{ "PasswordComplexity_RequireLowercase_Hint" | localize }}
+              </li>
+              <li [hidden]="!tenantCreateForm.controls['adminPassword'].errors.requireUppercase">
+                {{ "PasswordComplexity_RequireUppercase_Hint" | localize }}
+              </li>
+              <li [hidden]="!tenantCreateForm.controls['adminPassword'].errors.requireNonAlphanumeric">
+                {{ "PasswordComplexity_RequireNonAlphanumeric_Hint" | localize }}
+              </li>
+              <li [hidden]="!tenantCreateForm.controls['adminPassword'].errors.requiredLength">
+                {{ "PasswordComplexity_RequiredLength_Hint" | localize: passwordComplexitySetting.requiredLength }}
+              </li>
+            </ul>
+          </div>
+
+          <nz-form-item *ngIf="!setRandomPassword">
+            <nz-form-label for="AdminPasswordRepeat">{{ "AdminPasswordRepeat" | localize }}</nz-form-label>
+            <input nz-input #AdminPasswordRepeat="ngModel" [(ngModel)]="tenantAdminPasswordRepeat"
+              [ngClass]="{ edited: tenantAdminPasswordRepeat }" [requireDigit]="passwordComplexitySetting.requireDigit"
+              [requireLowercase]="passwordComplexitySetting.requireLowercase"
+              [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric"
+              [requireUppercase]="passwordComplexitySetting.requireUppercase"
+              [requiredLength]="passwordComplexitySetting.requiredLength" [required]="!setRandomPassword"
+              class="form-control" id="AdminPasswordRepeat" maxlength="32" name="AdminPasswordRepeat" type="password"
+              validateEqual="AdminPassword" />
+          </nz-form-item>
+
+          <div [hidden]="tenantCreateForm.form.valid || tenantCreateForm.form.pristine">
+            <ul
+              *ngIf="tenantCreateForm.controls['adminPasswordRepeat'] && tenantCreateForm.controls['adminPasswordRepeat'].errors"
+              class="help-block text-danger">
+              <li [hidden]="!tenantCreateForm.controls['adminPasswordRepeat'].errors.requireDigit">
+                {{ "PasswordComplexity_RequireDigit_Hint" | localize }}
+              </li>
+              <li [hidden]="!tenantCreateForm.controls['adminPasswordRepeat'].errors.requireLowercase">
+                {{ "PasswordComplexity_RequireLowercase_Hint" | localize }}
+              </li>
+              <li [hidden]="!tenantCreateForm.controls['adminPasswordRepeat'].errors.requireUppercase">
+                {{ "PasswordComplexity_RequireUppercase_Hint" | localize }}
+              </li>
+              <li [hidden]="!tenantCreateForm.controls['adminPasswordRepeat'].errors.requireNonAlphanumeric">
+                {{ "PasswordComplexity_RequireNonAlphanumeric_Hint" | localize }}
+              </li>
+              <li [hidden]="!tenantCreateForm.controls['adminPasswordRepeat'].errors.requiredLength">
+                {{ "PasswordComplexity_RequiredLength_Hint" | localize: passwordComplexitySetting.requiredLength }}
+              </li>
+              <li [hidden]="tenantCreateForm.controls['adminPasswordRepeat'].valid">
+                {{ "PasswordsDontMatch" | localize }}
+              </li>
+            </ul>
+          </div>
+
+          <nz-form-item>
+            <nz-form-label for="edition">{{ "Edition" | localize }}</nz-form-label>
+            <nz-select (change)="onEditionChange()" [(ngModel)]="tenant.editionId" class="form-control" id="edition"
+              name="edition">
+              <nz-option *ngFor="let edition of editions" [nzValue]="edition.value" [nzLabel]="edition.displayText">
+              </nz-option>
+            </nz-select>
+          </nz-form-item>
+
+          <nz-form-item [hidden]="!isSubscriptionFieldsVisible">
+            <nz-form-label class="kt-checkbox" for="CreateTenant_IsUnlimited">
+              <input nz-input [(ngModel)]="isUnlimited" id="CreateTenant_IsUnlimited" name="IsUnlimited"
+                type="checkbox" />
+
+              <span></span>
+            </nz-form-label>
+            <nz-form-control>
+              {{ "UnlimitedTimeSubscription" | localize }}
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item [hidden]="isUnlimited || !isSubscriptionFieldsVisible"
+            [ngClass]="{ 'has-error': !subscriptionEndDateIsValid() }" class="form-group">
+            <nz-form-label for="SubscriptionEndDate">{{ "SubscriptionEndDate" | localize }}</nz-form-label>
+            <nz-form-control>
+              <nz-range-picker #SubscriptionEndDateUtc [(ngModel)]="tenant.subscriptionEndDateUtc" autocomplete="off"
+                datePickerMomentModifier id="SubscriptionEndDate" name="SubscriptionEndDateUtc" type="text">
+              </nz-range-picker>
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item [hidden]="!isSubscriptionFieldsVisible">
+            <nz-form-label class="kt-checkbox" for="CreateTenant_IsInTrialPeriod">
+              <input [(ngModel)]="tenant.isInTrialPeriod" [disabled]="isSelectedEditionFree"
+                id="CreateTenant_IsInTrialPeriod" name="IsInTrialPeriod" type="checkbox" />
+            </nz-form-label>
+            <nz-form-control>
+              {{ "IsInTrialPeriod" | localize }}
+            </nz-form-control>
+          </nz-form-item>
+
+          <nz-form-item class="kt-checkbox-list">
+            <nz-form-label class="kt-checkbox" for="CreateTenant_ShouldChangePasswordOnNextLogin">
+              <input [(ngModel)]="tenant.shouldChangePasswordOnNextLogin"
+                id="CreateTenant_ShouldChangePasswordOnNextLogin" name="ShouldChangePasswordOnNextLogin"
+                type="checkbox" />
+
+
+            </nz-form-label>
+            <nz-form-control>
+              {{ "ShouldChangePasswordOnNextLogin" | localize }}
+            </nz-form-control>
+
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label class="kt-checkbox" for="CreateTenant_SendActivationEmail">
+              <input [(ngModel)]="tenant.sendActivationEmail" id="CreateTenant_SendActivationEmail"
+                name="SendActivationEmail" type="checkbox" />
+            </nz-form-label>
+            <nz-form-control>
+              {{ "SendActivationEmail" | localize }}
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label class="kt-checkbox" for="CreateTenant_IsActive">
+              <input [(ngModel)]="tenant.isActive" id="CreateTenant_IsActive" name="IsActive" type="checkbox" />
+            </nz-form-label>
+            <nz-form-control>
+              {{ "Active" | localize }}
+
+            </nz-form-control>
+          </nz-form-item>
+
+
+        </form>
+      </div>
+    </div>
+  </nz-modal>
+</ng-container>

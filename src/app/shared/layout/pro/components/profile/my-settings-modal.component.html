@@ -1,0 +1,111 @@
+<ng-container *ngIf="active">
+
+  <nz-modal [nzVisible]="active" [nzTitle]="l('MySettings')" (nzOnCancel)="close()"
+    [nzOkDisabled]="!mySettingsModalForm.form.valid || saving" (nzOnOk)="save()">
+
+    <form #mySettingsModalForm="ngForm" (ngSubmit)="save()">
+
+      <div *ngIf="user" class="modal-body">
+        <nz-tabset>
+          <nz-tab nzTitle="{{ l('Profile')  }}">
+            <div class="form-group">
+              <label for="Name">{{ "Name" | localize }} *</label>
+              <input nz-input #nameInput="ngModel" [(ngModel)]="user.name" class="form-control" id="Name" maxlength="64"
+                name="Name" required type="text" />
+              <validation-messages [formCtrl]="nameInput"></validation-messages>
+            </div>
+
+            <div class="form-group">
+              <label for="Surname">{{ "Surname" | localize }} *</label>
+              <input nz-input #surnameInput="ngModel" [(ngModel)]="user.surname" class="form-control" id="Surname"
+                maxlength="64" name="Surname" required type="text" />
+              <validation-messages [formCtrl]="surnameInput"></validation-messages>
+            </div>
+
+            <div class="form-group">
+              <label for="EmailAddress">{{ "EmailAddress" | localize }} *</label>
+              <input nz-input #emailAddressInput="ngModel" [(ngModel)]="user.emailAddress" class="form-control" email
+                id="EmailAddress" maxlength="256" name="EmailAddress" required type="email" />
+              <validation-messages [formCtrl]="emailAddressInput"></validation-messages>
+            </div>
+            <div *ngIf="smsEnabled">
+              <div class="form-group">
+                <label>{{ "PhoneNumber" | localize }}</label>
+                <div class="input-group">
+                  <input nz-input [(ngModel)]="user.phoneNumber" class="form-control" maxlength="32" name="PhoneNumber"
+                    type="text" />
+
+                  <span class="input-group-btn" id="SpanSmsVerificationUnverified">
+                    <button nz-button (click)="smsVerify()"
+                      [disabled]="isPhoneNumberConfirmed && savedPhoneNumber == user.phoneNumber"
+                      class="btn btn-primary" id="btnSmsVerification" type="button">
+                      <i class="fa fa-exclamation-triangle"></i>{{ "Verify" | localize }}
+                    </button>
+                  </span>
+
+                  <div *ngIf="isPhoneNumberConfirmed && savedPhoneNumber == user.phoneNumber" class="input-group-append"
+                    id="SpanSmsVerificationVerified">
+                    <span class="input-group-text">
+                      <i [attr.aria-label]="l('Verified')" class="la la-check kt-font-success"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="UserName">{{ "UserName" | localize }} *</label>
+              <input nz-input #userNameInput="ngModel" [(ngModel)]="user.userName" [disabled]="!canChangeUserName"
+                class="form-control" id="UserName" maxlength="256" name="UserName" required type="text" />
+              <span *ngIf="!canChangeUserName"
+                class="form-text text-muted">{{ "CanNotChangeAdminUserName" | localize }}</span>
+              <validation-messages [formCtrl]="userNameInput"></validation-messages>
+            </div>
+
+            <div *ngIf="showTimezoneSelection" class="form-group">
+              <label for="Timezone">{{ "Timezone" | localize }}</label>
+              <!-- <timezone-combo [(ngModel)]="user.timezone" [defaultTimezoneScope]="defaultTimezoneScope" id="Timezone"
+                  name="Timezone"></timezone-combo> -->
+            </div>
+          </nz-tab>
+          <nz-tab *ngIf="!isMultiTenancyEnabled || isTwoFactorLoginEnabledForApplication"
+            nzTitle="{{ 'TwoFactorLogin' | localize }}">
+            <div>
+              <h4>
+                Google Authenticator
+              </h4>
+
+              <div [hidden]="!isGoogleAuthenticatorEnabled">
+                <div>
+                  {{ "ScanQrCodeWithYourMobileApp" | localize }}
+                </div>
+                <div class="text-center">
+                  <img [src]="user.qrCodeSetupImageUrl" alt="QR Code" />
+                </div>
+                <small>
+                  {{ l("GoogleAuthenticatorReferrerLink")  }}:
+                  <a href="https://support.google.com/accounts/answer/1066447" rel="noopener noreferrer"
+                    target="_blank">Google Authenticator</a>
+                </small>
+              </div>
+
+              <div [hidden]="isGoogleAuthenticatorEnabled">
+                <button nz-button nzType="secondary" (click)="updateQrCodeSetupImageUrl()" class="btn btn-success"
+                  type="button">{{ l("Enable") }}</button>
+              </div>
+
+              <div [hidden]="!isGoogleAuthenticatorEnabled">
+                <button nz-input nzType="danger" (click)="disableGoogleAuthenticator()"
+                  type="button">{{ l("Disable") }}</button>
+              </div>
+            </div>
+          </nz-tab>
+        </nz-tabset>
+      </div>
+
+    </form>
+
+  </nz-modal>
+  <smsVerificationModal #smsVerificationModal (modalSave)="changePhoneNumberToVerified()" *ngIf="user"
+    [newPhoneNumber]="user.phoneNumber"></smsVerificationModal>
+</ng-container>

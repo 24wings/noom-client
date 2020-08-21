@@ -1,0 +1,273 @@
+<div class="padding-bottom-45">
+
+
+
+  <div style="padding: 20px;" (onShown)="onShown()" aria-hidden=" true" aria-labelledby="createOrEditModal"
+    class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form #userForm="ngForm" (ngSubmit)="save()" *ngIf="active" novalidate>
+          <div class="modal-header">
+            <h4 class="modal-title">
+              <span *ngIf="user.id">{{ l("EditUser")  }}: {{ user.userName }}</span>
+              <span *ngIf="!user.id">{{ l("CreateNewUser") }}</span>
+            </h4>
+
+          </div>
+          <div class="modal-body">
+            <nz-tabset>
+              <nz-tab [nzTitle]="titleTemplate">
+
+                <ng-template #titleTemplate> <i nz-icon [nzType]="'user'"></i>{{l('UserInformations') }} </ng-template>
+                <!-- <div class="row">
+                  <div class="col-sm-3 text-center mb-5 mt-5">
+                    <img alt="Profile picture" class="img-thumbnail img-rounded" height="128" src="{{ profilePicture }}"
+                      width="128" />
+                  </div>
+                </div> -->
+
+                <nz-form-item>
+                  <nz-form-label nzRequired [nzSm]="4" [nzXs]="24">{{l('Name')}}</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzSm]="20" [nzXs]="24">
+                    <div nz-row>
+                      <div nzSpan="16" nz-col>
+                        <input nz-input #nameInput="ngModel" [(ngModel)]="user.name" class="form-control" id="Name"
+                          maxlength="64" name="Name" required type="text" />
+                      </div>
+                      <div nz-col nzSpan="8" style="position: absolute;top: -23px;right: -26px;    padding: 20px;">
+                        <nz-upload class="avatar-uploader" nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                          nzName="avatar" nzListType="picture-card" [nzShowUploadList]="false">
+                          <ng-container *ngIf="!avatarUrl">
+                            <i class="upload-icon" nz-icon [nzType]="loading ? 'loading' : 'plus'"></i>
+                            <div class="ant-upload-text">Upload</div>
+                          </ng-container>
+                          <img *ngIf="avatarUrl" [src]="avatarUrl" style="width: 100%" />
+                        </nz-upload>
+                      </div>
+                    </div>
+
+                    <validation-messages [formCtrl]="nameInput"></validation-messages>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label for="Surname" nzRequired [nzSm]="4" [nzXs]="24">{{ l("Surname") }}</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzSm]="20" [nzXs]="24">
+                    <div nz-row>
+                      <div nzSpan="16" nz-col>
+                        <input nz-input #surnameInput="ngModel" [(ngModel)]="user.surname" class="form-control"
+                          id="Surname" maxlength="64" name="Surname" required type="text" />
+                        <validation-messages [formCtrl]="surnameInput"></validation-messages>
+                      </div>
+                    </div>
+                  </nz-form-control>
+                </nz-form-item>
+                <!-- </div> -->
+                <!-- </div> -->
+                <nz-form-item>
+                  <nz-form-label for="EmailAddress" nzRequired [nzSm]="4" [nzXs]="24">{{ l("EmailAddress") }}
+                  </nz-form-label>
+                  <nz-form-control [nzSm]="20" [nzXs]="24">
+                    <input nz-input #emailAddressInput="ngModel" [(ngModel)]="user.emailAddress" class="form-control"
+                      email id="EmailAddress" maxlength="256" name="EmailAddress" required type="email" />
+                    <validation-messages [formCtrl]="emailAddressInput"></validation-messages>
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                  <nz-form-label for="PhoneNumber" nzRequired [nzSm]="4" [nzXs]="24">{{ l("PhoneNumber")  }}
+                  </nz-form-label>
+                  <nz-form-control nzHasFeedback [nzSm]="20" [nzXs]="24">
+                    <input nz-input [(ngModel)]="user.phoneNumber" class="form-control" id="PhoneNumber" maxlength="32"
+                      name="PhoneNumber" type="text" />
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                  <nz-form-label for="UserName" nzRequired [nzSm]="4" [nzXs]="24">{{ l("UserName")  }} </nz-form-label>
+                  <nz-form-control nzHasFeedback [nzSm]="20" [nzXs]="24">
+                    <input nz-input #userNameInput="ngModel" [(ngModel)]="user.userName" [disabled]="!canChangeUserName"
+                      class="form-control" id="UserName" maxlength="256" name="UserName" required type="text" />
+                    <span *ngIf="!canChangeUserName" class="help-block">{{ l("CanNotChangeAdminUserName") }}</span>
+                    <validation-messages [formCtrl]="userNameInput"></validation-messages>
+                  </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                  <nz-form-label nzRequired [nzSm]="4" [nzXs]="24">{{ l("SetRandomPassword")  }}</nz-form-label>
+                  <nz-form-control [nzSm]="20" [nzXs]="24">
+                    <nz-switch name="SetRandomPassword" [(ngModel)]="setRandomPassword" nzCheckedChildren="是"
+                      nzUnCheckedChildren="否">
+                    </nz-switch>
+                    <span></span>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item *ngIf="!setRandomPassword">
+                  <nz-form-label for="Password" nzRequired [nzSm]="4" [nzXs]="24">{{ l("Password")  }}</nz-form-label>
+                  <nz-form-control nzHasFeedback [nzSm]="20" [nzXs]="24">
+                    <input nz-input #Password="ngModel" [(ngModel)]="user.password"
+                      [requireDigit]="passwordComplexitySetting.requireDigit"
+                      [requireLowercase]="passwordComplexitySetting.requireLowercase"
+                      [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric"
+                      [requireUppercase]="passwordComplexitySetting.requireUppercase"
+                      [requiredLength]="passwordComplexitySetting.requiredLength"
+                      [required]="!user.id && !setRandomPassword" autocomplete="off" class="form-control" id="Password"
+                      maxlength="32" name="Password" type="password" validateEqual="PasswordRepeat" reverse="true" />
+                  </nz-form-control>
+                </nz-form-item>
+                <div [hidden]="setRandomPassword || userForm.form.valid || userForm.form.pristine">
+                  <ul *ngIf="userForm.controls['Password'] && userForm.controls['Password'].errors"
+                    class="help-block text-danger">
+                    <li [hidden]="!userForm.controls['Password'].errors.requireDigit">
+                      {{ l("PasswordComplexity_RequireDigit_Hint" )}}</li>
+                    <li [hidden]="!userForm.controls['Password'].errors.requireLowercase">
+                      {{ l("PasswordComplexity_RequireLowercase_Hint")}}</li>
+                    <li [hidden]="!userForm.controls['Password'].errors.requireUppercase">
+                      {{ l("PasswordComplexity_RequireUppercase_Hint") }}</li>
+                    <li [hidden]="!userForm.controls['Password'].errors.requireNonAlphanumeric">
+                      {{ l("PasswordComplexity_RequireNonAlphanumeric_Hint")  }}</li>
+                    <li [hidden]="!userForm.controls['Password'].errors.requiredLength">
+                      {{ l("PasswordComplexity_RequiredLength_Hint",passwordComplexitySetting.requiredLength) }}
+                    </li>
+                  </ul>
+                </div>
+                <nz-form-item *ngIf="!setRandomPassword" class="form-group">
+                  <!-- <div class="right"> -->
+                  <nz-form-label for="PasswordRepeat" nzRequired [nzSm]="4" [nzXs]="24">{{ l("PasswordRepeat") }}
+                  </nz-form-label>
+                  <nz-form-control [nzSm]="20" [nzXs]="24">
+                    <input nz-input #PasswordRepeat="ngModel" [(ngModel)]="userPasswordRepeat"
+                      [requireDigit]="passwordComplexitySetting.requireDigit"
+                      [requireLowercase]="passwordComplexitySetting.requireLowercase"
+                      [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric"
+                      [requireUppercase]="passwordComplexitySetting.requireUppercase"
+                      [requiredLength]="passwordComplexitySetting.requiredLength"
+                      [required]="!user.id && !setRandomPassword" autocomplete="off" class="form-control"
+                      id="PasswordRepeat" maxlength="32" name="PasswordRepeat" type="password"
+                      validateEqual="Password" />
+                  </nz-form-control>
+                  <!-- </div> -->
+                </nz-form-item>
+                <div [hidden]="setRandomPassword || userForm.form.valid || userForm.form.pristine">
+                  <ul *ngIf="userForm.controls['PasswordRepeat'] && userForm.controls['PasswordRepeat'].errors"
+                    class="help-block text-danger">
+                    <li [hidden]="!userForm.controls['PasswordRepeat'].errors.requireDigit">
+                      {{ l("PasswordComplexity_RequireDigit_Hint" ) }}</li>
+                    <li [hidden]="!userForm.controls['PasswordRepeat'].errors.requireLowercase">
+                      {{ l("PasswordComplexity_RequireLowercase_Hint") }}</li>
+                    <li [hidden]="!userForm.controls['PasswordRepeat'].errors.requireUppercase">
+                      {{ l("PasswordComplexity_RequireUppercase_Hint")}}</li>
+                    <li [hidden]="!userForm.controls['PasswordRepeat'].errors.requireNonAlphanumeric">
+                      {{ l("PasswordComplexity_RequireNonAlphanumeric_Hint") }}</li>
+                    <li [hidden]="!userForm.controls['PasswordRepeat'].errors.requiredLength">
+                      {{ l("PasswordComplexity_RequiredLength_Hint" ,passwordComplexitySetting.requiredLength)}}
+                    </li>
+                    <li [hidden]="userForm.controls['PasswordRepeat'].valid">{{ l("PasswordsDontMatch") }}</li>
+                  </ul>
+                </div>
+                <div nz-row>
+                  <nz-form-item nz-col nzSpan="12">
+                    <div nz-row>
+                      <nz-form-label [nzSpan]="8" nz-col for="EditUser_ShouldChangePasswordOnNextLogin">
+                        {{ l("ShouldChangePasswordOnNextLogin")}}
+                      </nz-form-label>
+                      <nz-form-control [nzSpan]="16" nz-col>
+                        <nz-switch id="EditUser_ShouldChangePasswordOnNextLogin" name="ShouldChangePasswordOnNextLogin"
+                          [(ngModel)]="user.shouldChangePasswordOnNextLogin" nzCheckedChildren="是"
+                          nzUnCheckedChildren="否">
+                        </nz-switch>
+                        <span></span>
+                      </nz-form-control>
+                    </div>
+                  </nz-form-item>
+                  <nz-form-item nz-col nzSpan="12">
+                    <div nz-row>
+                      <nz-form-label [nzSpan]="8" nz-col for="EditUser_SendActivationEmail">{{l("SendActivationEmail")}}
+                      </nz-form-label>
+                      <nz-form-control [nzSpan]="16" nz-col>
+                        <nz-switch id="EditUser_SendActivationEmail" name="SendActivationEmail"
+                          [(ngModel)]="sendActivationEmail" nzCheckedChildren="是" nzUnCheckedChildren="否">
+                        </nz-switch>
+                      </nz-form-control>
+                    </div>
+                  </nz-form-item>
+                  <nz-form-item nz-col nzSpan="12" nz-row>
+                    <div nz-row>
+                      <nz-form-label [nzSpan]="8" nz-col class="kt-checkbox" for="EditUser_IsActive">{{ l("Active") }}
+                      </nz-form-label>
+                      <nz-form-control [nzSpan]="16" nz-col>
+                        <nz-switch name="IsActive" id="EditUser_IsActive" name="SendActivationEmail"
+                          [(ngModel)]="user.isActive" nzCheckedChildren="是" nzUnCheckedChildren="否">
+                        </nz-switch>
+                      </nz-form-control>
+                    </div>
+                  </nz-form-item>
+                  <nz-form-item nz-col nzSpan="12" nz-row *ngIf="isTwoFactorEnabled">
+                    <div nz-row>
+                      <nz-form-label class="kt-checkbox" for="EditUser_IsTwoFactorEnabled">
+                        {{ l("IsTwoFactorEnabled") }}
+                      </nz-form-label>
+                      <nz-form-control>
+                        <nz-switch name="IsActive" id="EditUser_IsTwoFactorEnabled" name="IsTwoFactorEnabled"
+                          [(ngModel)]="user.isTwoFactorEnabled" nzCheckedChildren="是" nzUnCheckedChildren="否">
+                        </nz-switch>
+                      </nz-form-control>
+                    </div>
+                  </nz-form-item>
+                  <nz-form-item *ngIf="isLockoutEnabled" nz-row nz-col nzSpan="12">
+                    <div nz-row>
+                      <nz-form-label [nzSpan]="8" nz-col for="EditUser_IsLockoutEnabled">
+                        {{ l("IsLockoutEnabled" ) }}
+                      </nz-form-label>
+                      <nz-form-control [nzSpan]="16" nz-col>
+                        <nz-switch id="EditUser_IsLockoutEnabled" name="IsLockoutEnabled"
+                          [(ngModel)]="user.isLockoutEnabled" nzCheckedChildren="是" nzUnCheckedChildren="否">
+                        </nz-switch>
+                      </nz-form-control>
+                    </div>
+                  </nz-form-item>
+                </div>
+              </nz-tab>
+              <nz-tab [nzTitle]="titleTemplate2">
+                <ng-template #titleTemplate2>
+                  <nz-badge [nzCount]="getAssignedRoleCount()">
+                    <i nz-icon nzType="plus" nzTheme="outline"></i>{{l('Roles') }} &nbsp;&nbsp;
+                  </nz-badge>
+
+                </ng-template>
+
+                <div class="kt-checkbox-list">
+                  <label *ngFor="let role of roles" [attr.for]="'EditUser_' + role.roleName" class="kt-checkbox">
+                    <input [(ngModel)]="role.isAssigned" [disabled]="role.inheritedFromOrganizationUnit"
+                      id="EditUser_{{ role.roleName }}" name="{{ role.roleName }}" type="checkbox" />
+                    {{ role.roleDisplayName }} <small
+                      *ngIf="role.inheritedFromOrganizationUnit">({{ l("RoleIsInheritedFromOrganizationUnit" ) }})</small>
+                    <span></span>
+                  </label>
+                </div>
+              </nz-tab>
+              <nz-tab [nzTitle]="titleTemplate3">
+                <ng-template #titleTemplate3>
+                  <i nz-icon nzType="share-alt" nzTheme="outline"></i>{{l('OrganizationUnits') }} &nbsp;&nbsp;
+
+                </ng-template>
+                <organization-unit-tree #organizationUnitTree></organization-unit-tree>
+                <!-- <organization-unit-tree #organizationUnitTree [cascadeSelectEnabled]="false"></organization-unit-tree> -->
+              </nz-tab>
+            </nz-tabset>
+          </div>
+          <div class="modal-footer">
+            <button (click)="close()" nz-button [disabled]="saving" type="button"><i nz-icon
+                nzType="save"></i>{{ l("Cancel")  }}</button>
+
+            <button [disabled]="saving" nz-button nzType="primary"><i nz-icon nzType="save"></i>{{l('Save')}}</button>
+
+            <!-- <button [text]="l('SavingWithThreeDot')" [buttonBusy]="saving" [disabled]="!userForm.form.valid"
+            class="btn btn-primary" type="submit">
+            <i class="fa fa-save"></i> <span>{{ "Save" | localize }}</span>
+          </button> -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
