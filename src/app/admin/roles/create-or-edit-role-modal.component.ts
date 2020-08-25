@@ -30,6 +30,8 @@ export class CreateOrEditRoleModalComponent extends AppComponentBase {
       self.role = result.role;
       this.permissionTree.editData = result;
 
+
+
       // self.modal.show();
     });
   }
@@ -44,7 +46,6 @@ export class CreateOrEditRoleModalComponent extends AppComponentBase {
     const input = new CreateOrUpdateRoleInput();
     input.role = self.role;
     input.grantedPermissionNames = self.permissionTree.getGrantedPermissionNames();
-
     this.saving = true;
     this._roleService
       .createOrUpdateRole(input)
@@ -52,6 +53,7 @@ export class CreateOrEditRoleModalComponent extends AppComponentBase {
       .subscribe(() => {
         this.notify.info(this.l('SavedSuccessfully'));
         this.close();
+
         this.modalSave.emit(null);
       });
   }

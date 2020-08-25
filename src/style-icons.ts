@@ -4,6 +4,7 @@ import {
   BulbOutline,
   CheckSquareFill,
   ExceptionOutline,
+  FileExcelOutline,
   FileZipOutline,
   FolderOutline,
   IeSquareFill,
@@ -31,5 +32,6 @@ export const ICONS = [
   IeSquareFill,
   CheckSquareFill,
   PlusSquareOutline,
-  PlusOutline
+  PlusOutline,
+  FileExcelOutline
 ];

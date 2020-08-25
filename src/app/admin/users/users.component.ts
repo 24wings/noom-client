@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { STChange, STColumn, STColumnTag } from '@delon/abc/st/table';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/common/component-base/paged-listing-component-base';
-import { LinkedUserDto, UserServiceProxy, UserListDto } from '@shared/service-proxies/service-proxies';
+import { LinkedUserDto, UserListDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { PartialObserver } from 'rxjs';
 import { CreateOrEditUserModalComponent } from './create-or-edit-user-modal/create-or-edit-user-modal.component';
 import { EditUserPermissionsModalComponent } from './edit-user-permissions-modal/edit-user-permissions-modal.component';
@@ -27,7 +27,7 @@ export class UsersComponent extends PagedListingComponentBase<UserListDto> {
       this.columns[this.columns.length - 1].buttons.push({
         text: this.l('Delete'),
         type: 'link',
-        click: (e: any) => console.log(e),
+        click: (e: any) => this.delete(e),
       });
     }
 
@@ -59,9 +59,9 @@ export class UsersComponent extends PagedListingComponentBase<UserListDto> {
       title: this.l('Roles'),
       index: 'roles',
       format: (item, _col, index) => {
-        let string = item.roles.map((role) => role.name).join(',');
-        console.log('string:', string);
-        return string;
+        const roleNames = item.roles.map((role) => role.name).join(',');
+        console.log('string:', roleNames);
+        return roleNames;
       },
     },
     {
@@ -109,7 +109,7 @@ export class UsersComponent extends PagedListingComponentBase<UserListDto> {
   }
 
   protected delete(entity: LinkedUserDto): void {
-    this.message.confirm("Delete user '" + entity.username + "'?", undefined, (result: boolean) => {
+    this.message.confirm('Delete user \'' + entity.username + '\'?', '', (result: boolean) => {
       if (result) {
         this._userService.deleteUser(entity.id).subscribe(() => {
           this.notify.info('Deleted User: ' + entity.username);

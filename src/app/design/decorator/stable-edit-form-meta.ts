@@ -1,11 +1,15 @@
-export class StableEditFormItem {
+export type IifCondition = string | number | boolean | { gt: any };
+export type Iif<T> = { [p in keyof T]?: IifCondition };
+
+export class StableEditFormItem<T> {
   label: string;
+  iif?: Iif<T>[];
 
 }
 
-export class StableEditFormMeta {
+export class StableEditFormMeta<T> {
   loadUrl: string;
-  columns: StableEditFormItem[];
+  formItems: StableEditFormItem<T>[];
   submitUrl: string;
 
 }

@@ -1,3 +1,14 @@
 <ng-container *ngIf="config">
-  <nz-modal [nzVisible]="active" [nzTitle]="config.title"></nz-modal>
+  <nz-modal [nzVisible]="active" [nzTitle]="config.title">
+    <form nz-form nzLayout="vertical" #editForm="ngForm" (change)="log(editForm,editForm.form.getRawValue())">
+      <ng-container *ngFor="let item of config.formItems">
+        <nz-form-item *ngIf="!item.disabled">
+          <nz-form-label>{{item.label}}</nz-form-label>
+          <nz-form-control>
+            <dynamic-component [alias]="item.control?item.control:'text'" [config]="item"></dynamic-component>
+          </nz-form-control>
+        </nz-form-item>
+      </ng-container>
+    </form>
+  </nz-modal>
 </ng-container>

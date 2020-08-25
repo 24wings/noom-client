@@ -1,5 +1,26 @@
-<page-header-wrapper [title]="l('RolesHeaderInfo')">
+<page-header-wrapper [title]="title" [action]="action">
+  <ng-template #title>
+    {{l('RolesHeaderInfo')}}
+    <span class="text-sm text-grey-dark">
+      <nz-divider nzType="vertical"></nz-divider>
+      {{'RolesHeaderInfo'}}
+    </span>
+  </ng-template>
 
+  <ng-template #action>
+    <div style="display: flex;justify-content: flex-end;">
+      <button nz-button>
+        <i nz-icon nzType="file-excel"></i>
+        <span>
+          {{"ExportToExcel" | localize}}
+        </span>
+      </button>
+      <button nz-button (click)="createRole()" nzType="primary"
+              *ngIf="'Pages.Administration.Roles.Create' | permission"> <i nz-icon nzType="plus"></i>
+        {{l('CreateNewRole')}}</button>
+
+    </div>
+  </ng-template>
 
   <nz-card>
     <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
@@ -17,125 +38,23 @@
       </div>
     </div>
 
-    <!-- toolbar -->
-    <div nz-row style="margin-top: 20px;">
-      <button nz-button (click)="createRole()" nzType="primary"
-        *ngIf="'Pages.Administration.Roles.Create' | permission"> <i nz-icon nzType="plus"></i>
-        {{l('CreateNewRole')}}</button>
+    <div class="my-md"></div>
 
-      <button nz-button (click)="deleteRoleBat()" nzType="danger"> <i nz-icon nzType="delete"></i>
-        {{l('Remove')}}</button>
-    </div>
-
-    <!-- selection alert -->
-    <div nz-row>
-      <nz-alert style="width: 100%;padding-top:20px;padding-bottom: 20px;" nzType="info"
-        [nzMessage]="'已选择'+getSelectedItems()+'条'" nzShowIcon>
-      </nz-alert>
-    </div>
     <!-- data table -->
     <div nz-row>
 
 
       <st [data]="dataList" [loading]="loading" [columns]="columns" style="width: 100%;"
-        [page]="{pageNumber:pageNumber,show:show,totalItems:totalItems,totalPages:totalPages}"></st>
+          [page]="{pageNumber:pageNumber,show:show,totalItems:totalItems,totalPages:totalPages}"
+          (change)="change($event)">
+        <ng-template st-row="name" let-item>
+          {{item.name}} <nz-tag nzColor="#5d78ff" *ngIf="item.isStatic">{{l('Static')}}</nz-tag>
+          <nz-tag nzColor="#000000" *ngIf="item.isDefault">{{l('Default')}}</nz-tag>
+        </ng-template>
+      </st>
     </div>
   </nz-card>
-  <!-- 
-  <div [class]="containerClass + ' kt-grid__item kt-grid__item--fluid'">
-    <div class="kt-portlet">
-      <div class="kt-portlet__body">
-        <div class="kt-form">
-          <div class="row">
-            <div class="col-xl-6">
-              <div class="form-group">
-                <permission-tree-modal #permissionFilterTreeModal (closed)="getRoles()"></permission-tree-modal>
-              </div>
-            </div>
-            <div class="col-xl-6 text-right">
-              <button (click)="getRoles()" class="btn btn-primary" name="RefreshButton"><i class="la la-refresh"></i>
-                {{ "Refresh" | localize }}</button>
-            </div>
-          </div>
-        </div>
-        <div class="row align-items-center">
-          <!--<Primeng-TurboTable-Start>--
-          <div [busyIf]="primengTableHelper.isLoading" class="col primeng-datatable-container">
-            <p-table #dataTable (onLazyLoad)="getRoles()" [lazy]="true" [paginator]="false"
-              [responsive]="primengTableHelper.isResponsive" [value]="primengTableHelper.records"
-              rows="{{ primengTableHelper.defaultRecordsCountPerPage }}">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th
-                    [hidden]="!(['Pages.Administration.Roles.Edit', 'Pages.Administration.Roles.Delete'] | permissionAny)"
-                    style="width: 130px">
-                    {{ "Actions" | localize }}
-                  </th>
-                  <th>{{ "RoleName" | localize }}</th>
-                  <th>{{ "CreationTime" | localize }}</th>
-                </tr>
-              </ng-template>
 
-              <ng-template let-record="$implicit" pTemplate="body">
-                <tr>
-                  <td
-                    [hidden]="!(['Pages.Administration.Roles.Edit', 'Pages.Administration.Roles.Delete'] | permissionAny)">
-                    <div class="btn-group dropdown" dropdown>
-                      <button class="dropdown-toggle btn btn-primary btn-sm dropdown-toggle" dropdownToggle>
-                        <i class="fa fa-cog"></i><span class="caret"></span>
-                        {{ "Actions" | localize }}
-                      </button>
-                      <ul *dropdownMenu class="dropdown-menu">
-                        <li>
-                          <a (click)="createOrEditRoleModal.show(record.id)"
-                            *ngIf="'Pages.Administration.Roles.Edit' | permission"
-                            href="javascript:">{{ "Edit" | localize }}</a>
-                        </li>
-                        <li>
-                          <a (click)="deleteRole(record)"
-                            *ngIf="!record.isStatic && ('Pages.Administration.Roles.Delete' | permission)"
-                            href="javascript:">{{
-                              "Delete" | localize
-                            }}</a>
-                        </li>
-                        <li>
-                          <a (click)="showHistory(record)" *ngIf="entityHistoryEnabled"
-                            href="javascript:">{{ "History" | localize }}</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="ui-column-title">{{ "RoleName" | localize }}</span>
-                    <span>
-                      {{ record.displayName }}
-                      <span *ngIf="record.isStatic" class="kt-badge kt-badge--brand kt-badge--inline"
-                        data-placement="top" data-toggle="tooltip" title="{{ 'StaticRole_Tooltip' | localize }}">
-                        {{ "Static" | localize }}
-                      </span>
-                      <span *ngIf="record.isDefault" class="kt-badge kt-badge--dark kt-badge--inline"
-                        data-placement="top" data-toggle="tooltip" title="{{ 'DefaultRole_Description' | localize }}">
-                        {{ "Default" | localize }}
-                      </span>
-                    </span>
-                  </td>
-                  <td>
-                    <span class="ui-column-title">{{ "CreationTime" | localize }}</span>
-                    {{ record.creationTime | momentFormat: "L" }}
-                  </td>
-                </tr>
-              </ng-template>
-            </p-table>
-            <div *ngIf="primengTableHelper.totalRecordsCount == 0" class="primeng-no-data">
-              {{ "NoData" | localize }}
-            </div>
-            <div class="ui-table-footer"></div>
-          </div>
-          <!--<Primeng-TurboTable-End>--
-        </div>
-      </div>
-    </div>
-  </div> -->
 
   <createOrEditRoleModal #createOrEditRoleModal (modalSave)="getRoles()"></createOrEditRoleModal>
   <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>

@@ -16,6 +16,7 @@ import { BrandService } from '../../pro.service';
     '[class.alain-pro__menu-only-icon]': 'pro.onlyIcon',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./menu.component.css']
 })
 export class LayoutProMenuComponent extends AppComponentBase implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
@@ -30,6 +31,19 @@ export class LayoutProMenuComponent extends AppComponentBase implements OnInit, 
     this.cdr.markForCheck();
   }
 
+  hasNoPermissionsMenu(menu: Menu) {
+    if (menu.children) {
+      if (menu.children.length > 0) {
+        return menu.children.every(item => !this.permission.isGranted(item.data.permission));
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+
+
+  }
   private genMenus(data: Menu[]) {
     const res: Menu[] = [];
     // ingores category menus

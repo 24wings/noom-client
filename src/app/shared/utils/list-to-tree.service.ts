@@ -38,11 +38,11 @@ export function getAllTreeNodes(nodes: NzTreeNode[]): NzTreeNode[] {
 }
 
 export function getCheckedTreeNodes(nodes: any[]): NzTreeNode[] {
-    return getAllTreeNodes(nodes).filter((n: any) => n.checked);
+    return getAllTreeNodes(nodes).filter((n: NzTreeNode) => n.isChecked || n.isHalfChecked);
 
 }
 export function getSelectedTreeNodes(nodes: any[]): NzTreeNode[] {
-    return getAllTreeNodes(nodes).filter((n: any) => n.selected);
+    return getAllTreeNodes(nodes).filter((n: NzTreeNode) => n.isSelectable);
 
 }
 

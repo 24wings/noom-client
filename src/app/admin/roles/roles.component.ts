@@ -19,8 +19,8 @@ export class RolesComponent extends PagedListingComponentBase<RoleListDto> imple
   loading = false;
   columns: STColumn[] = [
     { type: 'checkbox', index: 'checked' },
-    { title: this.l('RoleName'), index: 'displayName' },
-    { title: this.l('CreationTime'), index: 'creationTime', type: 'date' },
+    { title: this.l('RoleName'), index: 'displayName', render: 'name', sort: true },
+    { title: this.l('CreationTime'), index: 'creationTime', type: 'date', sort: true },
     {
       buttons: [
 
@@ -46,7 +46,6 @@ export class RolesComponent extends PagedListingComponentBase<RoleListDto> imple
   _entityTypeFullName = 'AbpDemo.Study.Authorization.Roles.Role';
   entityHistoryEnabled = false;
   protected fetchDataList(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    // throw new Error("Method not implemented.");
     this.getRoles();
   }
 

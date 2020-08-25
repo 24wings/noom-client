@@ -1,37 +1,40 @@
-<nz-modal [nzVisible]="active" (nzOnOk)="save()" (nzOnCancel)="close()" [title]="l('EditRole')">
+<ng-container *ngIf="active">
+  <nz-modal [nzVisible]="active" (nzOnOk)="save()" (nzOnCancel)="close()" [title]="l('EditRole')">
 
-  <nz-alert [nzMessage]="l('Note_RefreshPageForPermissionChanges')" nzType="info" nzShowIcon="true"></nz-alert>
+    <nz-alert [nzMessage]="l('Note_RefreshPageForPermissionChanges')" nzType="info" nzShowIcon="true"></nz-alert>
 
-  <form #roleForm="ngForm" (ngSubmit)="save()" *ngIf="active" autocomplete="off" novalidate>
+    <form #roleForm="ngForm" (ngSubmit)="save()" *ngIf="active" autocomplete="off" novalidate>
 
-    <div class="modal-body">
-      <nz-tabset>
-        <nz-tab nzTitle="{{ 'RoleName' | localize }}">
-          <div class="form-group">
-            <label>{{ "RoleName" | localize }} *</label>
-            <input nz-input #roleNameInput="ngModel" [(ngModel)]="role.displayName" class="form-control"
-              id="RoleDisplayName" maxlength="64" name="DisplayName" required type="text" />
-            <validation-messages [formCtrl]="roleNameInput"></validation-messages>
-          </div>
+      <div class="modal-body">
+        <nz-tabset>
+          <nz-tab nzTitle="{{ 'RoleName' | localize }}">
+            <div class="form-group">
+              <label>{{ "RoleName" | localize }} *</label>
+              <input nz-input #roleNameInput="ngModel" [(ngModel)]="role.displayName" class="form-control"
+                     id="RoleDisplayName" maxlength="64" name="DisplayName" required type="text" />
+              <validation-messages [formCtrl]="roleNameInput"></validation-messages>
+            </div>
 
-          <div class="kt-checkbox-list">
-            <label class="kt-checkbox">
-              <nz-switch [(ngModel)]="role.isDefault" id="EditRole_IsDefault" name="IsDefault" [nzCheckedChildren]="'是'"
-                [nzUnCheckedChildren]="'否'">
-              </nz-switch>
-              {{ "Default" | localize }}
-              <span></span>
-            </label>
-            <span class="help-block">{{ "DefaultRole_Description" | localize }}</span>
-          </div>
-        </nz-tab>
-        <nz-tab nzTitle="{{ 'Permissions' | localize }}">
-          <permission-tree #permissionTree></permission-tree>
-        </nz-tab>
-      </nz-tabset>
+            <div class="kt-checkbox-list">
+              <label class="kt-checkbox">
+                <nz-switch [(ngModel)]="role.isDefault" id="EditRole_IsDefault" name="IsDefault"
+                           [nzCheckedChildren]="'是'"
+                           [nzUnCheckedChildren]="'否'">
+                </nz-switch>
+                {{ "Default" | localize }}
+                <span></span>
+              </label>
+              <span class="help-block">{{ "DefaultRole_Description" | localize }}</span>
+            </div>
+          </nz-tab>
+          <nz-tab nzTitle="{{ 'Permissions' | localize }}">
+            <permission-tree #permissionTree></permission-tree>
+          </nz-tab>
+        </nz-tabset>
 
-    </div>
+      </div>
 
-  </form>
+    </form>
 
-</nz-modal>
+  </nz-modal>
+</ng-container>

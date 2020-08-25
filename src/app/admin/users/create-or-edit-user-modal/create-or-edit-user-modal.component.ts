@@ -7,15 +7,15 @@ import {
 import { AppConsts } from '@app/shared';
 import { ModalComponentBase } from '@shared/common/modal-component-base';
 import {
+  CreateOrUpdateUserInput,
   GetUserForEditOutput,
   OrganizationUnitDto,
   PasswordComplexitySetting,
   ProfileServiceProxy,
   RoleServiceProxy,
+  UserEditDto,
   UserRoleDto,
   UserServiceProxy,
-  UserEditDto,
-  CreateOrUpdateUserInput,
 } from '@shared/service-proxies/service-proxies';
 import _ from 'lodash';
 import { NzModalRef } from 'ng-zorro-antd';
@@ -99,10 +99,10 @@ export class CreateOrEditUserModalComponent extends ModalComponentBase implement
         this.passwordComplexitySetting = passwordComplexityResult.setting;
         this.setPasswordComplexityInfo();
         // this.modal.show();
-
+        debugger;
         this.organizationUnitTree.data = {
-          allOrganizationUnits: this.allOrganizationUnits,
-          selectedOrganizationUnits: this.memberedOrganizationUnits,
+          allOrganizationUnits: this.allOrganizationUnits ? this.allOrganizationUnits : [],
+          selectedOrganizationUnits: this.memberedOrganizationUnits ? this.memberedOrganizationUnits : [],
         } as IOrganizationUnitsTreeComponentData;
       });
     });
@@ -181,16 +181,16 @@ export class CreateOrEditUserModalComponent extends ModalComponentBase implement
       )
       .subscribe(() => {
         this.notify.info(this.l('SavedSuccessfully'));
-        this.close();
-        this.modalSave.emit(null);
+        this.close(true);
+        this.modalSave.emit(true);
       });
   }
 
-  close(): void {
+  close(result?): void {
     this.active = false;
     this.userPasswordRepeat = '';
     // this.modal.hide();
-    this.modal.close();
+    this.modal.close(result);
   }
 
   getAssignedRoleCount(): number {

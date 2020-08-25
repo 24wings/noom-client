@@ -25,7 +25,7 @@ export class AppMenus {
         {
           text: 'Design',
           i18n: 'Design',
-          icon: 'anticon anticon-dashboard',
+          icon: 'icon-code iconfont',
           link: '/app/design/design',
           data: { permission: 'Pages.Administration.Host.Dashboard', }
         },

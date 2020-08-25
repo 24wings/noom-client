@@ -20,7 +20,10 @@
     "test-coverage": "ng test --code-coverage --watch=false",
     "color-less": "node scripts/color-less.js",
     "icon": "ng g ng-alain:plugin icon",
-    "nswag": "cd nswag && nswag run"
+    "nswag": "cd nswag && nswag run",
+    "link-alain-dynamic":"npm link alain-dynamic",
+    "build-ngh":"ng build --prod --aot --base-href=\"https://24wings.github.io/noom-client/\"",
+    "publish:oss":".\\scripts\\ossutil64\\ossutil64 cp dist oss://noom/ -r --force"
   },
   "dependencies": {
     "@agm/core": "^1.1.0",

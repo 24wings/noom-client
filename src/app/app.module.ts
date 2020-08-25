@@ -1,12 +1,12 @@
 import * as ngCommon from '@angular/common';
-import { NgModule } from '@angular/core';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { UtilsModule } from '@shared/utils/utils.module';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared';
-import { STWidgetModule } from './shared/st-widget/st-widget.module';
-import { UtilsModule } from '@shared/utils/utils.module';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { AppCommonModule } from './shared/common/app-common.module';
+import { STWidgetModule } from './shared/st-widget/st-widget.module';
 
 const COMPONENTS = [
   // // single pages
@@ -30,5 +30,6 @@ const COMPONENTS_NOROUNT = [];
   exports: [AppRoutingModule],
   providers: [],
   entryComponents: COMPONENTS_NOROUNT,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule {}
+export class AppModule { }

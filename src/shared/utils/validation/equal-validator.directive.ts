@@ -8,7 +8,7 @@ import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
   providers: [{ provide: NG_VALIDATORS, useExisting: forwardRef(() => EqualValidator), multi: true }]
 })
 export class EqualValidator implements Validator {
-  constructor(@Attribute('validateEqual') public validateEqual: string) {}
+  constructor(@Attribute('validateEqual') public validateEqual: string) { }
 
   @Input() reverse: string | boolean;
 
@@ -16,7 +16,7 @@ export class EqualValidator implements Validator {
     if (this.reverse === true || this.reverse === false) {
       return this.reverse;
     }
-    return /^true$/i.test(this.reverse.toString());
+    return /^true$/i.test(this.reverse?.toString());
   }
 
   validate(control: AbstractControl): { [key: string]: any } {

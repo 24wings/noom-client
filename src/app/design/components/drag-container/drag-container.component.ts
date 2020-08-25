@@ -1,18 +1,18 @@
-import { Component, Input, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, ViewChild, OnInit } from '@angular/core';
 import { DynamicDirective } from '@app/design/directives/dynamic-directive';
-import { UIComponent } from '../ui.component';
+import { ActionLogService } from '@app/design/services/action-log.service';
 import { ComponentAlias } from '@app/design/services/component-alias';
 import { ConfigModalComponent } from '../config-modal/config-modal.component';
-import { ActionLogService } from '@app/design/services/action-log.service';
+import { UIComponent } from '../ui.component';
 
 @Component({
   selector: 'drag-cotainer',
   templateUrl: './drag-container.component.html',
   styleUrls: ['./drag-container.component.css']
 })
-export class DragContainerComponent {
+export class DragContainerComponent implements OnInit {
   @ViewChild(DynamicDirective, { static: true }) adHost: DynamicDirective;
-  @Input() isActive: boolean = false;
+  @Input() isActive = false;
   @Input() alias: string;
   @Input() config: any;
   @ViewChild(ConfigModalComponent) configModalComponent: ConfigModalComponent;
@@ -45,7 +45,7 @@ export class DragContainerComponent {
 
   }
   log() {
-    this.actionLogService.send('save config ')
+    this.actionLogService.send('save config ');
   }
 
 }

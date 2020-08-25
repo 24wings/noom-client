@@ -7,9 +7,12 @@ import { CommonModule } from '../../shared/common/common.module';
 import { ServiceProxyModule } from '../../shared/service-proxies/service-proxy.module';
 import { UtilsModule } from '../../shared/utils/utils.module';
 import { SharedModule } from '../shared/shared.module';
+import { AdminRoutingModule } from './admin-routing.module';
 import { AuditLogDetailModalComponent } from './audit-logs/audit-log-detail-modal.component';
 import { AuditLogsComponent } from './audit-logs/audit-logs.component';
 import { HostDashboardComponent } from './dashboard/host-dashboard.component';
+import { CreateOrEditDistributComponent } from './distribut/create-or-edit-distribut/create-or-edit-distribut.component';
+import { DistributComponent } from './distribut/distribut.component';
 import { CreateEditionModalComponent } from './editions/create-edition-modal.component';
 import { EditEditionModalComponent } from './editions/edit-edition-modal.component';
 import { EditionsComponent } from './editions/editions.component';
@@ -26,6 +29,8 @@ import { OrganizationTreeComponent } from './organization-units/organization-tre
 import { OrganizationUnitMembersComponent } from './organization-units/organization-unit-members.component';
 import { OrganizationUnitRolesComponent } from './organization-units/organization-unit-roles.component';
 import { OrganizationUnitsComponent } from './organization-units/organization-units.component';
+import { CreateOrEditPickupComponent } from './pickup/create-or-edit-pickup/create-or-edit-pickup.component';
+import { PickupComponent } from './pickup/pickup.component';
 import { CreateOrEditRoleModalComponent } from './roles/create-or-edit-role-modal.component';
 import { RolesComponent } from './roles/roles.component';
 import { HostSettingsComponent } from './settings/host-settings.component';
@@ -40,17 +45,12 @@ import { CreateTenantModalComponent } from './tenants/create-tenant-modal.compon
 import { EditTenantModalComponent } from './tenants/edit-tenant-modal.component';
 import { TenantFeaturesModalComponent } from './tenants/tenant-features-modal.component';
 import { TenantsComponent } from './tenants/tenants.component';
+import { CreateOrEditTopicComponent } from './topic/create-or-edit-topic/create-or-edit-topic.component';
+import { TopicComponent } from './topic/topic.component';
 import { CreateOrEditUserModalComponent } from './users/create-or-edit-user-modal/create-or-edit-user-modal.component';
 import { EditUserPermissionsModalComponent } from './users/edit-user-permissions-modal/edit-user-permissions-modal.component';
 import { ImpersonationService } from './users/impersonation.service';
 import { UsersComponent } from './users/users.component';
-import { AdminRoutingModule } from './admin-routing.module';
-import { PickupComponent } from './pickup/pickup.component';
-import { TopicComponent } from './topic/topic.component';
-import { CreateOrEditTopicComponent } from './topic/create-or-edit-topic/create-or-edit-topic.component';
-import { CreateOrEditPickupComponent } from './pickup/create-or-edit-pickup/create-or-edit-pickup.component';
-import { DistributComponent } from './distribut/distribut.component';
-import { CreateOrEditDistributComponent } from './distribut/create-or-edit-distribut/create-or-edit-distribut.component';
 
 @NgModule({
   imports: [
@@ -63,7 +63,7 @@ import { CreateOrEditDistributComponent } from './distribut/create-or-edit-distr
     AppCommonModule,
     SharedModule,
     UtilsModule,
-    ServiceProxyModule,
+    ServiceProxyModule
   ],
   declarations: [
     HostDashboardComponent,

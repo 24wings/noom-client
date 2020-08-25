@@ -1,0 +1,15 @@
+<form nz-form nzLayout="horizontal" #editForm="ngForm">
+  <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+    <ng-container *ngFor="let item of config.fields">
+      <div [nzXs]="24" [nzSm]="12" nz-col>
+        <nz-form-item *ngIf="!item.disabled" nz-row>
+          <nz-form-label nz-col nzXs="24" [nzSm]="8" [nzMd]="6">{{item.label}}</nz-form-label>
+          <nz-form-control [nzXs]="24" nz-col [nzSm]="16" [nzMd]="18">
+            <dynamic-component [alias]="item.control?item.control:'text'" [config]="item">
+            </dynamic-component>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </ng-container>
+  </div>
+</form>

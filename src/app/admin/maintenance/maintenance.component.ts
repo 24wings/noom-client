@@ -135,12 +135,12 @@ export class MaintenanceComponent extends AppComponentBase implements OnInit {
   }
 
   fixWebLogsPanelHeight(): void {
-    const panel = document.getElementsByClassName('full-height')[0];
-    const windowHeight = document.body.clientHeight;
-    const panelHeight = panel.clientHeight;
-    const difference = windowHeight - panelHeight;
-    const fixedHeight = panelHeight + difference;
-    (panel as any).style.height = fixedHeight - 420 + 'px';
+    // const panel = document.getElementsByClassName('full-height')[0];
+    // const windowHeight = document.body.clientHeight;
+    // const panelHeight = panel.clientHeight;
+    // const difference = windowHeight - panelHeight;
+    // const fixedHeight = panelHeight + difference;
+    // (panel as any).style.height = fixedHeight - 420 + 'px';
   }
 
   onResize(event): void {

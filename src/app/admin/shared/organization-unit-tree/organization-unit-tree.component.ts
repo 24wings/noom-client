@@ -3,7 +3,7 @@ import { AppComponentBase } from '@shared/common/component-base';
 import { OrganizationUnitDto } from '@shared/service-proxies/service-proxies';
 import { TreeDataHelperService } from '@shared/utils/tree-data-helper.service';
 import * as _ from 'lodash';
-import { NzTreeNode } from 'ng-zorro-antd';
+import { NzTreeNode } from 'ng-zorro-antd/tree';
 import { AbstractTree } from '../../../shared/utils/abstract-tree';
 import { list2Tree, listToNzTreeNode } from '../../../shared/utils/list-to-tree.service';
 
@@ -38,7 +38,6 @@ export interface IOrganizationUnitsTreeComponentData {
     ></p-tree> -->
 
       <nz-tree-select
-      [nzNodes]="treeData"
       nzShowSearch
       nzPlaceHolder="Please select"
       (ngModelChange)="onChange($event)"
